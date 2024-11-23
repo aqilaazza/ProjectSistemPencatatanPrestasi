@@ -154,6 +154,7 @@
             <li><a href="#">Beranda</a></li>
             <li><a href="#">Profil Saya</a></li>
             <li><a href="validasi_prestasi.php">Validasi Prestasi</a></li>
+            <li><a href="#" onclick="showSection('unggah_prestasi_non_akademik')">Unggah Prestasi Non-Akademik</a></li>
             <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
         </ul>
     </div>
