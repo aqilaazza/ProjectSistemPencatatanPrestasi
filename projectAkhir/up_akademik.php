@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Prestasi Akademik</title>
+    <!-- Tambahkan Google Font Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             max-width: 700px;
             margin: 0 auto;
             padding: 20px;
@@ -19,7 +21,6 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         h1 {
-            color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
         }
@@ -30,7 +31,6 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #34495e;
         }
         input[type="text"],
         input[type="number"],
@@ -65,28 +65,38 @@
             border-radius: 4px;
             cursor: pointer;
             margin-right: 10px;
-            
         }
-
         button:hover {
             background-image: linear-gradient(to right, #5a0e9d, #1e5bc0);
         }
-
         .btn-submit {
             background-image: linear-gradient(to right, #5a0e9d, #1e5bc0);
             display: block;
             width: 200px;
             margin: 20px auto;
         }
-
         .btn-submit:hover {
             background-image: linear-gradient(to right, #5a0e9d, #1e5bc0);
         }
-
         #ipk {
             font-size: 1.2em;
             font-weight: bold;
-            color: #2c3e50;
+        }
+        /* Gaya untuk link kembali */
+        .back-link {
+            color: #FF0000;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .back-link::before {
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -138,6 +148,9 @@
 
             <button type="submit" class="btn-submit">Simpan Data</button>
         </form>
+
+        <!-- Link Kembali ke Dashboard -->
+        <a href="dashboard_mahasiswa.php" class="back-link">Kembali ke Dashboard</a>
     </div>
 
     <script>
@@ -182,6 +195,7 @@
         document.getElementById('academicForm').onsubmit = function(e) {
             e.preventDefault();
             alert('Data berhasil disimpan!');
+            window.location.href = '/dashboard';
         };
     </script>
 </body>
