@@ -10,29 +10,26 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             display: flex;
-            flex-direction: column;
             height: 100vh;
             overflow: hidden;
+            background-color: #f5f6fa;
         }
 
         .sidebar {
             width: 250px;
-            background-color: #6a11cb;
+            background-color: #5828E2;
             color: white;
+            font-size:36;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             height: 100%;
             position: fixed;
-            left: -250px; /* Hidden by default */
-            transition: left 0.3s ease; /* Smooth transition */
-        }
-
-        .sidebar.active {
-            left: 0; /* Show when active */
+            left: 0;
         }
 
         .sidebar h2 {
             text-align: center;
+            margin-bottom: 30px;
         }
 
         .sidebar ul {
@@ -41,45 +38,54 @@
         }
 
         .sidebar ul li {
-            margin: 15px 0;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .sidebar ul li a {
             color: white;
             text-decoration: none;
             font-weight: 500;
-        }
-
-        .sidebar ul li a:hover {
-            text-decoration: underline;
+            display: block;
         }
 
         .main-content {
             flex-grow: 1;
-            padding: 20px;
-            margin-left: 0; /* No margin initially */
+            margin-left: 250px;
+            padding: 30px;
             overflow-y: auto;
-            transition: margin-left 0.3s ease; /* Smooth transition */
+            background-color: #f5f6fa;
         }
 
         .header {
-            background-color: #2575fc;
+            background-color: #2A6BF8;
             color: white;
-            padding: 15px;
-            text-align: center;
-            border-radius: 8px; /* Rounded corners */
-            margin-bottom: 20px; /* Space below the header */
+            text-align:center;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(37, 117, 252, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
         }
 
         .tabs {
             display: flex;
             justify-content: space-around;
             margin-bottom: 20px;
-            border-radius: 8px; /* Rounded corners */
+            border-radius: 15px; /* Rounded corners */
             overflow: hidden; /* Prevent overflow for rounded corners */
             background-color: #f0f0f0; /* Background color */
         }
-
         .tab {
             flex: 1; /* Equal space for each tab */
             padding: 10px 0; /* Vertical padding */
@@ -93,72 +99,89 @@
             background-color: #2575fc;
             color: white;
         }
+        .tab.active {
+            background-color: #2A6BF8;
+            color: white;
+            box-shadow: 0 2px 10px rgba(37, 117, 252, 0.2);
+        }
 
         .card {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 5px 50px; /* Padding horizontal */
-            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 30px;
+            
+        }
+
+        .card h2 {
+            color: #000000;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .card ul {
+            padding-left: 20px;
+        }
+
+        .card ul li {
+            margin-bottom: 15px;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
         }
 
         .upload-btn {
-            background-color: #6a11cb;
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 12px 25px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 20px;
-            display: block; /* Centering */
-            margin-left: auto; /* Centering */
-            margin-right: auto; /* Centering */
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.2);
         }
 
         footer {
+            background-color: #5828E2;
+            color: white;
             text-align: center;
-            padding: 10px 0;
-            background-color: #6a11cb;
-            color: white;
-            position: relative;
-            width: 100%;
-        }
-
-        .toggle-sidebar {
-            background-color: #6a11cb;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 30px;
-            cursor: pointer;
+            padding: 0px;
             position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 10; /* Ensure it's above other elements */
-        }
-
-        .toggle-icon {
-            font-size: 20px; /* Size of the icon */
+            bottom: 0;
+            margin-left: 127px;
+            padding-bottom:50px;
+            
         }
     </style>
 </head>
 <body>
 
-    <button class="toggle-sidebar" onclick="toggleSidebar()">
-        <span class="toggle-icon" id="sidebar-icon">></span>
-    </button>
-
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar">
         <h2>Dashboard</h2>
         <ul>
             <li><a href="#">Beranda</a></li>
-            <li><a href="#">Profil Saya</a></li>
-            <li><a href="up_nonakademik.php">Unggah Prestasi</a></li>
+            <li><a href="profil.php">Biodata Mahasiswa</a></li>
+            <li><a href="prestasi_akademik.php">Prestasi Akademik</a></li>
+            <li><a href="prestasi_nonakademik.php">Prestasi Non-Akademik</a></li>
             <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
         </ul>
     </div>
 
-    <div class="main-content" id="main-content">
+    <div class="main-content">
         <div class="header">
             <h1>Selamat Datang, [Nama Pengguna]</h1>
         </div>
@@ -171,66 +194,77 @@
         <div class="card" id="akademik">
             <h2>Riwayat Prestasi Akademik</h2>
             <ul>
-                <li>IPK Semester 1: 3.5</li>
-                <li>IPK Semester 2: 3.7</li>
-                <li>Juara 1 Lomba Debat Antar Politeknik</li>
+                <li>
+                    <strong>IPK Semester 1:</strong> 3.5
+                    <p>Periode: Ganjil 2023/2024</p>
+                </li>
+                <li>
+                    <strong>IPK Semester 2:</strong> 3.7
+                    <p>Periode: Genap 2023/2024</p>
+                </li>
+                <li>
+                    <strong>Juara 1 Lomba Debat Antar Politeknik</strong>
+                    <p>Tanggal: 15 Maret 2024</p>
+                </li>
             </ul>
+            <div class="button-container">
+                <button class="upload-btn" onclick="uploadPrestasi()">Input Prestasi</button>
+                <button class="upload-btn" onclick="editPrestasi()">Ubah Prestasi</button>
+            </div>
         </div>
 
         <div class="card" id="non-akademik" style="display: none;">
             <h2>Riwayat Prestasi Non-Akademik</h2>
             <ul>
-                <li>Anggota Organisasi Mahasiswa</li>
-                <li>Volunteering di Kegiatan Sosial</li>
-                <li>Peserta Workshop Keterampilan</li>
+                <li>
+                    <strong>Anggota Organisasi Mahasiswa</strong>
+                    <p>BEM Politeknik - Periode 2023/2024</p>
+                </li>
+                <li>
+                    <strong>Volunteering di Kegiatan Sosial</strong>
+                    <p>Program Bakti Sosial - Oktober 2023</p>
+                </li>
+                <li>
+                    <strong>Peserta Workshop Keterampilan</strong>
+                    <p>Workshop UI/UX Design - Desember 2023</p>
+                </li>
             </ul>
+            <div class="button-container">
+                <button class="upload-btn" onclick="uploadPrestasi()">Input Prestasi</button>
+                <button class="upload-btn" onclick="editPrestasi()">Ubah Prestasi</button>
+            </div>
         </div>
-
-        <button class="upload-btn" id="upload-button" onclick="uploadPrestasi()" style="display: none;">
-            Unggah Prestasi
-        </button>
-        
     </div>
 
+    <footer>
+        V 1.1.0
+    </footer>
+
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('main-content');
-            const sidebarIcon = document.getElementById('sidebar-icon');
-
-            sidebar.classList.toggle('active');
-            if (sidebar.classList.contains('active')) {
-                mainContent.style.marginLeft = '250px'; // Shift content to the right
-                sidebarIcon.textContent = '<'; // Change icon to '<'
-            } else {
-                mainContent.style.marginLeft = '0'; // Reset margin
-                sidebarIcon.textContent = '>'; // Change icon to '>'
-            }
-        }
-
         function showTab(tabName) {
             const akademikTab = document.getElementById('akademik');
             const nonAkademikTab = document.getElementById('non-akademik');
             const tabs = document.querySelectorAll('.tab');
-            const uploadButton = document.getElementById('upload-button');
 
             if (tabName === 'akademik') {
                 akademikTab.style.display = 'block';
                 nonAkademikTab.style.display = 'none';
                 tabs[0].classList.add('active');
                 tabs[1].classList.remove('active');
-                uploadButton.style.display = 'none'; // Hide the button
             } else {
                 akademikTab.style.display = 'none';
                 nonAkademikTab.style.display = 'block';
                 tabs[0].classList.remove('active');
                 tabs[1].classList.add('active');
-                uploadButton.style.display = 'block'; // Show the button
             }
         }
 
         function uploadPrestasi() {
-            alert('Fungsi unggah prestasi akan ditambahkan di sini.');
+            alert('Fungsi untuk input prestasi akan ditambahkan di sini.');
+        }
+
+        function editPrestasi() {
+            alert('Fungsi untuk mengedit prestasi akan ditambahkan di sini.');
         }
 
         function confirmLogout() {
