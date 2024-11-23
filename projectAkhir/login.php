@@ -8,7 +8,7 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Mahasiswa</title>
+    <title>Login Sistem</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -93,33 +93,14 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
         .show-password {
             display: flex;
             align-items: center;
-            justify-content: center; 
-            width: 45%; 
+            gap: 10px;
+            margin-top: -10px; /* Sejajarkan dengan input sebelumnya */
+            font-size: 14px;
         }
 
-        .show-password input {
-            margin-right: 10px; 
-        }
-
-        .show-password label {
-            white-space: nowrap; 
-        }
-
-        .forgot-password {
-            display: block; 
-            text-align: center; 
-            margin-top: 10px; 
-            color: #6a11cb; 
-            text-decoration: none; 
-        }
-
-        .forgot-password span {
-            text-decoration: underline; 
-            cursor: pointer; 
-        }
-
-        .forgot-password:hover {
-            color: #6a11cb; 
+        .show-password input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
         }
     </style>
 </head>
@@ -128,6 +109,7 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
         <div class="tabs">
             <div class="tab active" onclick="showTab('mahasiswa')">Mahasiswa</div>
             <div class="tab" onclick="showTab('admin')">Admin</div>
+            <div class="tab" onclick="showTab('dosen')">Dosen</div>
         </div>
         <div class="forms">
             <form id="mahasiswa" class="form-container active" action="#">
@@ -139,7 +121,6 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
                     <label for="mahasiswa-show-password">Show Password</label>
                 </div>
                 <button type="submit">Login</button>
-                <a href="#" class="forgot-password">Lupa password? <span> Pulihkan</span></a>
             </form>
             <form id="admin" class="form-container" action="#">
                 <h2>Login Admin</h2>
@@ -150,12 +131,20 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
                     <label for="admin-show-password">Show Password</label>
                 </div>
                 <button type="submit">Login</button>
-                <a href="#" class="forgot-password">Lupa password? <span> Pulihkan</span></a>
+            </form>
+            <form id="dosen" class="form-container" action="#">
+                <h2>Login Dosen</h2>
+                <input type="text" placeholder="NIDN" required />
+                <input type="password" id="dosen-password" placeholder="Password" required />
+                <div class="show-password">
+                    <input type="checkbox" id="dosen-show-password" onclick="togglePasswordVisibility('dosen-password', this)">
+                    <label for="dosen-show-password">Show Password</label>
+                </div>
+                <button type="submit">Login</button>
             </form>
         </div>
     </div>
 
- <!-- javasccript untuk fungsi animasi dari login page -->
     <script>
         function showTab(tabName) {
             const forms = document.querySelectorAll('.form-container');
@@ -169,7 +158,7 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
             });
 
             document.getElementById(tabName).classList.add('active');
-            const activeTab = Array.from(tabs).find(tab => tab.textContent === tabName.charAt(0).toUpperCase() + tabName.slice(1));
+            const activeTab = Array.from(tabs).find(tab => tab.textContent.toLowerCase() === tabName.toLowerCase());
             activeTab.classList.add('active');
         }
 
