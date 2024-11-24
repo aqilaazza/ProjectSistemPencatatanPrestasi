@@ -171,7 +171,7 @@
 <body>
 
     <div class="sidebar">
-        <h2>Dashboard</h2>
+        <h2>Dashboard Mahasiswa</h2>
         <ul>
             <li><a href="#">Beranda</a></li>
             <li><a href="profil.php">Biodata Mahasiswa</a></li>
