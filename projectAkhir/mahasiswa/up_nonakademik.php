@@ -60,6 +60,14 @@
             margin-bottom: 15px;
         }
 
+        select {
+            color: #888;
+        }
+
+        select option {
+            color: #333;
+        }
+
         input[type="file"] {
             padding: 10px;
             background-color: #f1f1f1;
@@ -123,8 +131,33 @@
         <h2>Data Prestasi Non-Akademik</h2>
         <form action="#">
             <input type="text" placeholder="Nama Kompetisi" required />
-            <input type="text" placeholder="Jenis Kompetisi" required />
-            <input type="text" placeholder="Tingkat Kompetisi" required />
+            
+            <!-- Jenis Kompetisi: Dropdown dengan placeholder -->
+            <label for="jenis-kompetisi">Jenis Kompetisi:</label>
+            <select id="jenis-kompetisi" name="jenis-kompetisi" required>
+                <option value="" disabled selected>Pilih Jenis Kompetisi</option>
+                <option value="">Kepenulisan</option>
+                <option value="">Seni</option>
+                <option value="">Olahraga</option>
+                <option value="">Kewirausahaan</option>
+                <option value="">Ilmiah</option>
+                <option value="">Kreativitas</option>
+                <option value="">Teknologi</option>
+                <option value="">Lainnya</option>
+            </select>
+
+            <!-- Tingkat Kompetisi: Dropdown dengan placeholder -->
+            <label for="tingkat-kompetisi">Tingkat Kompetisi:</label>
+            <select id="tingkat-kompetisi" name="tingkat-kompetisi" required>
+                <option value="" disabled selected>Pilih Tingkat Kompetisi</option>
+                <option value="">Internal</option>
+                <option value="">Kabupaten/Kota</option>
+                <option value="">Provinsi</option>
+                <option value="">Nasional</option>
+                <option value="">Internasional</option>
+                <option value="">Lainnya</option>
+            </select>
+
             <input type="date" placeholder="Tanggal Penyelenggaraan" required />
             <label for="upload-dokumentasi">Upload Dokumentasi</label>
             <input type="file" id="upload-dokumentasi" required />
