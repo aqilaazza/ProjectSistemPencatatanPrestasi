@@ -4,8 +4,8 @@ require_once 'config/connection.php';
 
 // Ambil parameter role dan data form
 $role = $_GET['role'] ?? '';
-$username = $_POST['username'] ?? '';
-$password = $_POST['password'] ?? '';
+$username = trim($_POST['username'] ?? '');  // Pangkas spasi pada username
+$password = trim($_POST['password'] ?? '');  // Pangkas spasi pada password
 
 // Validasi input
 if (!$role || !$username || !$password) {
@@ -32,7 +32,6 @@ switch ($role) {
         die("Role tidak valid.");
 }
 
-
 // Query cek login berdasarkan role dan username
 $conn = connection();
 $query = "SELECT * FROM $table WHERE $column = :username;";
@@ -42,56 +41,40 @@ $stmt->execute();
 
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-
+// Debugging: Cek hasil query
 if (!$result) {
-    echo "nim salah";
+    echo "Username salah";
     return;
 }
 
 foreach ($result as $res) {
+    // Hilangkan spasi tambahan pada password dari database
+    $dbPassword = trim($res["password"]);
 
+    // Debugging: Periksa nilai yang digunakan untuk verifikasi
+    var_dump($dbPassword);
+    var_dump($password);
 
-    if ($res["password"] !== $password) {
-        echo "password salah";
+    // Jika password di-hash, gunakan password_verify. Jika tidak, gunakan perbandingan string.
+    if ($dbPassword === $password || password_verify($password, $dbPassword)) {
+        // Login sukses, redirect sesuai role
+        switch ($role) {
+            case 'mahasiswa':
+                header("Location: mahasiswa/dashboard_mahasiswa.php");
+                exit();
+            case 'admin':
+                header("Location: admin/dashboard_admin.php");
+                exit();
+            case 'dosen':
+                header("Location: dosen/dashboard_dosen.php");
+                exit();
+            default:
+                echo "Role tidak valid";
+                return;
+        }
+    } else {
+        echo "Password salah";
         return;
     }
-    
-    echo "sukses";
 }
-
-// if (!$result) {
-//     echo "salah bro";
-//     return;
-// }
-
-
-
-// // Jika username ditemukan
-// if ($result->num_rows > 0) {
-//     $row = $result->fetch_assoc();
-//     // Verifikasi password
-//     if (password_verify($password, $row['password'])) {
-//         // Redirect ke dashboard sesuai role
-//         switch ($role) {
-//             case 'mahasiswa':
-//                 header("Location: dashboard_mahasiswa.php");
-//                 break;
-//             case 'admin':
-//                 header("Location: dashboard_admin.php");
-//                 break;
-//             case 'dosen':
-//                 header("Location: dashboard_dosen.php");
-//                 break;
-//         }
-//         exit();  // Pastikan program berhenti setelah melakukan redirect
-//     } else {
-//         echo "<script>alert('Password salah.'); window.history.back();</script>";
-//     }
-// } else {
-//     echo "<script>alert('Username tidak ditemukan.'); window.history.back();</script>";
-// }
-
-// // Menutup statement dan koneksi
-// $stmt->close();
-// $conn->close();
+?>
