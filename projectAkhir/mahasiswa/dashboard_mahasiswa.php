@@ -174,7 +174,7 @@
         <h2>Dashboard Mahasiswa</h2>
         <ul>
             <li><a href="#">Beranda</a></li>
-            <li><a href="profil.php">Biodata Mahasiswa</a></li>
+            <li><a href="biodata_mahasiswa.php">Biodata Mahasiswa</a></li>
             <li><a href="prestasi_akademik.php">Prestasi Akademik</a></li>
             <li><a href="prestasi_nonakademik.php">Prestasi Non-Akademik</a></li>
             <li><a href="#" onclick="confirmLogout()">Keluar</a></li>

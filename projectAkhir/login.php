@@ -94,7 +94,7 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-top: -10px; /* Sejajarkan dengan input sebelumnya */
+            margin-top: -10px;
             font-size: 14px;
         }
 
@@ -112,40 +112,44 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
             <div class="tab" onclick="showTab('dosen')">Dosen</div>
         </div>
         <div class="forms">
-            <form id="mahasiswa" class="form-container active" action="#">
-                <h2>Login Mahasiswa</h2>
-                <input type="text" placeholder="NIM" required />
-                <input type="password" id="mahasiswa-password" placeholder="Password" required />
-                <div class="show-password">
-                    <input type="checkbox" id="mahasiswa-show-password" onclick="togglePasswordVisibility('mahasiswa-password', this)">
-                    <label for="mahasiswa-show-password">Show Password</label>
-                </div>
-                <button type="submit">Login</button>
-            </form>
-            <form id="admin" class="form-container" action="#">
-                <h2>Login Admin</h2>
-                <input type="text" placeholder="ID ADMIN" required />
-                <input type="password" id="admin-password" placeholder="Password" required />
-                <div class="show-password">
-                    <input type="checkbox" id="admin-show-password" onclick="togglePasswordVisibility('admin-password', this)">
-                    <label for="admin-show-password">Show Password</label>
-                </div>
-                <button type="submit">Login</button>
-            </form>
-            <form id="dosen" class="form-container" action="#">
-                <h2>Login Dosen</h2>
-                <input type="text" placeholder="NIDN" required />
-                <input type="password" id="dosen-password" placeholder="Password" required />
-                <div class="show-password">
-                    <input type="checkbox" id="dosen-show-password" onclick="togglePasswordVisibility('dosen-password', this)">
-                    <label for="dosen-show-password">Show Password</label>
-                </div>
-                <button type="submit">Login</button>
-            </form>
-        </div>
+            <!-- Form Login Mahasiswa -->
+            <form id="mahasiswa" class="form-container active" action="process_login.php?role=mahasiswa" method="POST">
+    <h2>Login Mahasiswa</h2>
+    <input type="text" name="username" placeholder="nim" required />
+    <input type="password" id="mahasiswa-password" name="password" placeholder="Password" required />
+    <div class="show-password">
+        <input type="checkbox" id="mahasiswa-show-password" onclick="togglePasswordVisibility('mahasiswa-password', this)">
+        <label for="mahasiswa-show-password">Show Password</label>
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+<form id="admin" class="form-container" action="process_login.php?role=admin" method="POST">
+    <h2>Login Admin</h2>
+    <input type="text" name="username" placeholder="ID ADMIN" required />
+    <input type="password" id="admin-password" name="password" placeholder="Password" required />
+    <div class="show-password">
+        <input type="checkbox" id="admin-show-password" onclick="togglePasswordVisibility('admin-password', this)">
+        <label for="admin-show-password">Show Password</label>
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+<form id="dosen" class="form-container" action="process_login.php?role=dosen" method="POST">
+    <h2>Login Dosen</h2>
+    <input type="text" name="username" placeholder="NIDN" required />
+    <input type="password" id="dosen-password" name="password" placeholder="Password" required />
+    <div class="show-password">
+        <input type="checkbox" id="dosen-show-password" onclick="togglePasswordVisibility('dosen-password', this)">
+        <label for="dosen-show-password">Show Password</label>
+    </div>
+    <button type="submit">Login</button>
+</form>
+
     </div>
 
     <script>
+        // Fungsi untuk menampilkan form sesuai role yang dipilih
         function showTab(tabName) {
             const forms = document.querySelectorAll('.form-container');
             forms.forEach(form => {
@@ -162,6 +166,7 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
             activeTab.classList.add('active');
         }
 
+        // Fungsi untuk toggle password visibility
         function togglePasswordVisibility(passwordId, checkbox) {
             const passwordField = document.getElementById(passwordId);
             passwordField.type = checkbox.checked ? 'text' : 'password';
