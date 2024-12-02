@@ -2,12 +2,23 @@
 // Sertakan file koneksi
 include('../config/connection.php');
 
-// Query untuk mengambil data mahasiswa
-$sql = "SELECT m.nim, m.nama_lengkap, m.email, m.no_telp, m.agama, m.nama_ortu, m.jenis_kelamin, m.kota_kelahiran, m.tgl_lahir, m.tahun_masuk, p.nama_prodi, m.no_telp_ortu, m.no_telp_wali
-        FROM mahasiswa m
-        JOIN prodi p ON m.id_prodi = p.id_prodi
-        ORDER BY m.nim ASC";
-$result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjalankan query di SQL Server
+try {
+    // Menggunakan PDO untuk menyiapkan dan mengeksekusi query
+    $pdo = connection();
+
+    // Query untuk mengambil data mahasiswa
+    $sql = "SELECT m.nim, m.nama_lengkap, m.email, m.no_telp, m.agama, m.nama_ortu, m.jenis_kelamin, m.kota_kelahiran, m.tgl_lahir, m.tahun_masuk, p.nama_prodi, m.no_telp_ortu, m.no_telp_wali
+    FROM mahasiswa m
+    JOIN prodi p ON m.id_prodi = p.id_prodi
+    ORDER BY m.nim ASC";
+    
+    $stmt = $pdo->prepare($sql); // Memasukkan query ke dalam PDO statement
+    $stmt->execute(); // Menjalankan query
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Mengambil hasil dalam bentuk array
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+    die();
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +30,7 @@ $result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjala
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        /* Styling CSS Anda tetap sama */
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -155,7 +167,7 @@ $result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjala
             <tbody>
                 <?php
                 if ($result) {
-                    while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+                    foreach ($result as $row) {
                         echo "<tr>";
                         echo "<td>" . $row['nim'] . "</td>";
                         echo "<td>" . $row['nama_lengkap'] . "</td>";
@@ -165,7 +177,7 @@ $result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjala
                         echo "<td>" . $row['nama_ortu'] . "</td>";
                         echo "<td>" . $row['jenis_kelamin'] . "</td>";
                         echo "<td>" . $row['kota_kelahiran'] . "</td>";
-                        
+
                         // Mengonversi tanggal lahir jika ada
                         $tgl_lahir = $row['tgl_lahir']; 
                         if ($tgl_lahir instanceof DateTime) {
@@ -215,6 +227,4 @@ $result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjala
 </html>
 
 <?php
-// Menutup koneksi setelah selesai
-sqlsrv_close($conn);
-?>
+// Menutup koneksi setelah

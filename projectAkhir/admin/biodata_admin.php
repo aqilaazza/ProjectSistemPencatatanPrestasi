@@ -1,14 +1,18 @@
 <?php
-// Menghubungkan ke database menggunakan connection.php
+// Mengimpor koneksi database dari connection.php
 include('../config/connection.php');
 
-// Query untuk mengambil semua biodata admin
-$sql = "SELECT * FROM admin";
-$query = sqlsrv_query($conn, $sql);
+try {
+    // Memanggil fungsi connection() untuk mendapatkan koneksi PDO
+    $pdo = connection();
 
-// Cek jika query berhasil dijalankan
-if (!$query) {
-    die(print_r(sqlsrv_errors(), true));
+    // Query untuk mengambil semua biodata admin
+    $sql = "SELECT * FROM admin";
+    $query = $pdo->prepare($sql);  // Menggunakan objek PDO dari connection.php
+    $query->execute();
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Query gagal: " . $e->getMessage());
 }
 ?>
 
@@ -182,20 +186,20 @@ if (!$query) {
             </thead>
             <tbody>
                 <?php
-                while ($row = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
+                foreach ($results as $row) {
                     echo "<tr>";
-                    echo "<td>" . $row["nip"] . "</td>";
-                    echo "<td>" . $row["nama"] . "</td>";
-                    echo "<td>" . $row["email"] . "</td>";
-                    echo "<td>" . $row["no_telp"] . "</td>";
-                    echo "<td>" . $row["alamat"] . "</td>";
+                    echo "<td>" . htmlspecialchars($row["nip"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["nama"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["no_telp"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["alamat"]) . "</td>";
                     echo "<td class='action-buttons'>";
                     echo "<form action='edit_admin.php' method='get'>";
-                    echo "<input type='hidden' name='nip' value='" . $row['nip'] . "'>";
+                    echo "<input type='hidden' name='nip' value='" . htmlspecialchars($row['nip']) . "'>";
                     echo "<button type='submit' class='edit-button'><i class='fas fa-edit'></i> Edit</button>";
                     echo "</form>";
                     echo "<form action='hapus_admin.php' method='get' onsubmit='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\");'>";
-                    echo "<input type='hidden' name='nip' value='" . $row['nip'] . "'>";
+                    echo "<input type='hidden' name='nip' value='" . htmlspecialchars($row['nip']) . "'>";
                     echo "<button type='submit' class='delete-button'><i class='fas fa-trash'></i> Hapus</button>";
                     echo "</form>";
                     echo "</td>";
@@ -206,16 +210,13 @@ if (!$query) {
         </table>
 
         <div class="button-container">
-    <a href="tambah_admin.php" class="btn btn-primary">
-        <i class="fa fa-plus-circle"></i> Tambah Data
-    </a>
-    <a href="dashboard_admin.php" class="btn btn-secondary">
-        <i class="fa fa-arrow-left"></i> Kembali
-    </a>
-</div>
-
-    <?php
-    sqlsrv_close($conn);
-    ?>
+            <a href="tambah_admin.php" class="btn btn-primary">
+                <i class="fa fa-plus-circle"></i> Tambah Data
+            </a>
+            <a href="dashboard_admin.php" class="btn btn-secondary">
+                <i class="fa fa-arrow-left"></i> Kembali
+            </a>
+        </div>
+    </div>
 </body>
 </html>

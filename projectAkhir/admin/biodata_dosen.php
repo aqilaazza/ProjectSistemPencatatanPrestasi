@@ -2,11 +2,20 @@
 // Sertakan file koneksi
 include('../config/connection.php');
 
-// Query untuk mengambil data dosen
-$sql = "SELECT d.nidn, d.nama, d.email, d.no_telp, d.jabatan, d.alamat, d.kota_kelahiran, d.tgl_lahir, d.agama
-        FROM dosen d
-        ORDER BY d.nidn ASC";
-$result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjalankan query di SQL Server
+// Menggunakan koneksi PDO
+try {
+    $pdo = connection();
+    
+    $sql = "SELECT d.nidn, d.nama, d.email, d.no_telp, d.jabatan, d.alamat, d.kota_kelahiran, d.tgl_lahir, d.agama
+            FROM dosen d
+            ORDER BY d.nidn ASC";
+    $stmt = $pdo->prepare($sql); // Memasukkan query ke dalam PDO statement
+    $stmt->execute(); // Menjalankan query
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Mengambil hasil dalam bentuk array
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+    die();
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +27,7 @@ $result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjala
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        /* Styling CSS Anda tetap sama */
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -150,7 +160,7 @@ $result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjala
             <tbody>
                 <?php
                 if ($result) {
-                    while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+                    foreach ($result as $row) {
                         echo "<tr>";
                         echo "<td>" . $row['nidn'] . "</td>";
                         echo "<td>" . $row['nama'] . "</td>";
@@ -208,5 +218,5 @@ $result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjala
 
 <?php
 // Menutup koneksi setelah selesai
-sqlsrv_close($conn);
+$pdo = null;
 ?>

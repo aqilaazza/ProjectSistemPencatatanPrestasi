@@ -43,8 +43,13 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Debugging: Cek hasil query
 if (!$result) {
-    echo "Username salah";
-    return;
+    header("Location: login.php?error=username_wrong");
+    exit();
+}
+// Jika password tidak cocok:
+if ($dbPassword !== $password && !password_verify($password, $dbPassword)) {
+    header("Location: login.php?error=password_wrong");
+    exit();
 }
 
 foreach ($result as $res) {

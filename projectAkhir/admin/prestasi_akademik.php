@@ -2,11 +2,20 @@
 // Sertakan file koneksi
 include('../config/connection.php');
 
-// Query untuk mengambil semua prestasi akademik
-$sql = "SELECT p.id_akademik, p.nim, m.nama_lengkap, p.semester, p.ip
-FROM prestasi_akademik p 
-JOIN mahasiswa m ON p.nim = m.nim ORDER BY p.id_akademik DESC";
-$result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjalankan query di SQL Server
+// Menggunakan koneksi PDO
+try {
+    $pdo = connection();
+    
+    $sql = "SELECT p.id_akademik, p.nim, m.nama_lengkap, p.semester, p.ip
+    FROM prestasi_akademik p 
+    JOIN mahasiswa m ON p.nim = m.nim ORDER BY p.id_akademik DESC";
+    $stmt = $pdo->prepare($sql); // Memasukkan query ke dalam PDO statement
+    $stmt->execute(); // Menjalankan query
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Mengambil hasil dalam bentuk array
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+    die();
+}
 ?>
 
 <!DOCTYPE html>
@@ -156,7 +165,7 @@ $result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjala
             <tbody>
                 <?php
                 if ($result) {
-                    while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+                    foreach ($result as $row) {
                         echo "<tr>";
                         echo "<td>" . $row['id_akademik'] . "</td>";
                         echo "<td>" . $row['nim'] . "</td>";
@@ -203,5 +212,5 @@ $result = sqlsrv_query($conn, $sql); // Menggunakan sqlsrv_query() untuk menjala
 
 <?php
 // Menutup koneksi setelah selesai
-sqlsrv_close($conn);
+// Tidak perlu menutup koneksi karena koneksi PDO tidak memerlukan penutupan eksplisit
 ?>
