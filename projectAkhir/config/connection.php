@@ -1,7 +1,7 @@
 <?php
 
     function connection() : PDO{
-        $host = "LAPTOP-83QPKDTF\SQLEXPRESS"; //nama server\nama_instance
+        $host = "LAPTOP-ODRK022O"; //nama server\nama_instance
         $database = "sistemprestasi";
 
         $dsn = "sqlsrv:Server=$host;Database=$database";
@@ -11,4 +11,4 @@
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conn;
     }
-
+?>
