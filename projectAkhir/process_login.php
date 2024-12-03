@@ -44,7 +44,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Debugging: Cek hasil query
 if (!$result) {
     echo "Username salah";
-    return;
+        return;
 }
 
 foreach ($result as $res) {
