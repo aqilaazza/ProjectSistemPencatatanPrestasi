@@ -140,7 +140,7 @@
 
     <div class="main-content" id="main-content">
         <div class="header">
-            <h1>Selamat Datang, [Nama Admin]</h1>
+            <h1>Selamat Datang, Admin</h1>
         </div>
 
         <!-- Beranda -->
