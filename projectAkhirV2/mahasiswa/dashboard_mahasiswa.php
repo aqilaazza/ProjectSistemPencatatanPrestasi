@@ -265,7 +265,7 @@
     function confirmLogout() {
         const confirmed = window.confirm("Apakah Anda yakin keluar?");
         if (confirmed) {
-            window.location.href = "login.php?message=logout";
+            window.location.href = "logout.php?message=logout";
         }
     }
 </script>
