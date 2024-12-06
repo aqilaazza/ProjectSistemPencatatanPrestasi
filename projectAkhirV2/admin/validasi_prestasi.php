@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Validasi Prestasi Non-Akademik</title>
+  <title>Validasi Prestasi Non Akademik</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -75,7 +75,7 @@
 </head>
 <body>
   <div class="container">
-    <h2>Validasi Prestasi Akademik</h2>
+    <h2>Validasi Prestasi Non Akademik</h2>
     <div class="search-container">
       <form method="GET" action="">
         <input type="text" name="nim" placeholder="Cari berdasarkan NIM" value="<?= isset($_GET['nim']) ? htmlspecialchars($_GET['nim']) : '' ?>">
