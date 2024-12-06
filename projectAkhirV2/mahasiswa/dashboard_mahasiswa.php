@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Mahasiswa</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cssDashboard.css"> <!-- Link to the external CSS file -->
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -170,110 +171,102 @@
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2>Dashboard Mahasiswa</h2>
+<body>
+
+<div class="sidebar">
+    <h2>Dashboard Mahasiswa</h2>
+    <ul>
+        <li><a href="#" onclick="showTab('beranda')">Beranda</a></li>
+        <li><a href="../mahasiswa/biodata_mahasiswa.php">Biodata Mahasiswa</a></li>
+        <li><a href="#" onclick="showTab('akademik')">Prestasi Akademik</a></li>
+        <li><a href="#" onclick="showTab('non-akademik')">Prestasi Non-Akademik</a></li>
+        <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <div class="header">
+        <h1>Selamat Datang, [Nama Pengguna]</h1>
+    </div>
+
+    <!-- Konten Beranda -->
+    <div class="card" id="beranda">
+        <h2>Beranda</h2>
+        <p>Selamat datang di Dashboard Mahasiswa. Pilih menu di sidebar untuk melihat data lebih lanjut.</p>
+    </div>
+
+    <!-- Konten Prestasi Akademik -->
+    <div class="card" id="akademik" style="display: none;">
+        <h2>Riwayat Prestasi Akademik</h2>
         <ul>
-            <li><a href="#">Beranda</a></li>
-            <li><a href="biodata_mahasiswa.php">Biodata Mahasiswa</a></li>
-            <li><a href="prestasi_akademik.php">Prestasi Akademik</a></li>
-            <li><a href="prestasi_nonakademik.php">Prestasi Non-Akademik</a></li>
-            <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
+            <li>
+                <strong>IPK Semester 1:</strong> 3.5
+                <p>Periode: Ganjil 2023/2024</p>
+            </li>
+            <li>
+                <strong>IPK Semester 2:</strong> 3.7
+                <p>Periode: Genap 2023/2024</p>
+            </li>
+            <li>
+                <strong>Juara 1 Lomba Debat Antar Politeknik</strong>
+                <p>Tanggal: 15 Maret 2024</p>
+            </li>
         </ul>
     </div>
 
-    <div class="main-content">
-        <div class="header">
-            <h1>Selamat Datang, [Nama Pengguna]</h1>
-        </div>
-
-        <div class="tabs">
-            <div class="tab active" onclick="showTab('akademik')">Prestasi Akademik</div>
-            <div class="tab" onclick="showTab('non-akademik')">Prestasi Non-Akademik</div>
-        </div>
-
-        <div class="card" id="akademik">
-            <h2>Riwayat Prestasi Akademik</h2>
-            <ul>
-                <li>
-                    <strong>IPK Semester 1:</strong> 3.5
-                    <p>Periode: Ganjil 2023/2024</p>
-                </li>
-                <li>
-                    <strong>IPK Semester 2:</strong> 3.7
-                    <p>Periode: Genap 2023/2024</p>
-                </li>
-                <li>
-                    <strong>Juara 1 Lomba Debat Antar Politeknik</strong>
-                    <p>Tanggal: 15 Maret 2024</p>
-                </li>
-            </ul>
-            <div class="button-container">
-                <button class="upload-btn" onclick="uploadPrestasi()">Input Prestasi</button>
-                <button class="upload-btn" onclick="editPrestasi()">Ubah Prestasi</button>
-            </div>
-        </div>
-
-        <div class="card" id="non-akademik" style="display: none;">
-            <h2>Riwayat Prestasi Non-Akademik</h2>
-            <ul>
-                <li>
-                    <strong>Anggota Organisasi Mahasiswa</strong>
-                    <p>BEM Politeknik - Periode 2023/2024</p>
-                </li>
-                <li>
-                    <strong>Volunteering di Kegiatan Sosial</strong>
-                    <p>Program Bakti Sosial - Oktober 2023</p>
-                </li>
-                <li>
-                    <strong>Peserta Workshop Keterampilan</strong>
-                    <p>Workshop UI/UX Design - Desember 2023</p>
-                </li>
-            </ul>
-            <div class="button-container">
-                <button class="upload-btn" onclick="uploadPrestasi()">Input Prestasi</button>
-                <button class="upload-btn" onclick="editPrestasi()">Ubah Prestasi</button>
-            </div>
+    <!-- Konten Prestasi Non-Akademik -->
+    <div class="card" id="non-akademik" style="display: none;">
+        <h2>Riwayat Prestasi Non-Akademik</h2>
+        <ul>
+            <li>
+                <strong>Anggota Organisasi Mahasiswa</strong>
+                <p>BEM Politeknik - Periode 2023/2024</p>
+            </li>
+            <li>
+                <strong>Volunteering di Kegiatan Sosial</strong>
+                <p>Program Bakti Sosial - Oktober 2023</p>
+            </li>
+            <li>
+                <strong>Peserta Workshop Keterampilan</strong>
+                <p>Workshop UI/UX Design - Desember 2023</p>
+            </li>
+        </ul>
+        <div class="button-container">
+            <button class="upload-btn" onclick="uploadPrestasi()">Input Prestasi</button>
         </div>
     </div>
+</div>
 
-    <footer>
-        V 1.1.0
-    </footer>
+<footer>
+    V 1.1.0
+</footer>
 
-    <script>
-        function showTab(tabName) {
-            const akademikTab = document.getElementById('akademik');
-            const nonAkademikTab = document.getElementById('non-akademik');
-            const tabs = document.querySelectorAll('.tab');
+<script>
+    function showTab(tabName) {
+        // Sembunyikan semua card
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => card.style.display = 'none');
 
-            if (tabName === 'akademik') {
-                akademikTab.style.display = 'block';
-                nonAkademikTab.style.display = 'none';
-                tabs[0].classList.add('active');
-                tabs[1].classList.remove('active');
-            } else {
-                akademikTab.style.display = 'none';
-                nonAkademikTab.style.display = 'block';
-                tabs[0].classList.remove('active');
-                tabs[1].classList.add('active');
-            }
+        // Tampilkan card sesuai tabName
+        const selectedCard = document.getElementById(tabName);
+        if (selectedCard) {
+            selectedCard.style.display = 'block';
         }
+    }
 
-        function uploadPrestasi() {
-            alert('Fungsi untuk input prestasi akan ditambahkan di sini.');
+    function uploadPrestasi() {
+        window.location.href = "../mahasiswa/up_nonakademik.php"; // Sesuaikan dengan nama file halaman kedua
+    }
+
+    function editPrestasi() {
+        window.location.href = "../mahasiswa/up_nonakademik.php"; // Sesuaikan dengan nama file halaman kedua
+    }
+
+    function confirmLogout() {
+        const confirmed = window.confirm("Apakah Anda yakin keluar?");
+        if (confirmed) {
+            window.location.href = "login.php?message=logout";
         }
-
-        function editPrestasi() {
-            alert('Fungsi untuk mengedit prestasi akan ditambahkan di sini.');
-        }
-
-        function confirmLogout() {
-            const confirmed = window.confirm("Apakah Anda yakin keluar?");
-            if (confirmed) {
-                window.location.href = "login.php?message=logout";
-            }
-        }
-    </script>
-
+    }
+</script>
 </body>
-</html>
