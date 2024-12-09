@@ -1,24 +1,22 @@
 <?php
-// Sertakan file koneksi
 include('../config/connection.php');
+include('../models/user.php');
+include('../models/mahasiswa.php');
 
 try {
-    // Menggunakan PDO untuk menyiapkan dan mengeksekusi query
-    $pdo = connection();
-
-    // Query untuk mengambil data mahasiswa
-    $sql = "SELECT m.nim, m.nama_lengkap, m.email, m.no_telp, m.agama, m.nama_ortu, m.jenis_kelamin, m.kota_kelahiran, m.tgl_lahir, m.tahun_masuk, p.nama_prodi, m.no_telp_ortu, m.no_telp_wali
-    FROM mahasiswa m
-    JOIN prodi p ON m.id_prodi = p.id_prodi
-    ORDER BY m.nim ASC";
+    // Membuat instance dari class connection dan user
+    $dbConnection = new connection();
+    $pdo = $dbConnection->connect(); // Membuka koneksi menggunakan metode connect()
     
-    $stmt = $pdo->prepare($sql); // Memasukkan query ke dalam PDO statement
-    $stmt->execute(); // Menjalankan query
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Mengambil hasil dalam bentuk array
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-    die();
+    // Membuat instance dari class mahasiswa (yang sudah extend class user)
+    $mahasiswa = new mahasiswa($pdo);
+    
+    // Mengambil semua data mahasiswa dengan metode getAll dari class user
+    $result = $mahasiswa->getAll();
+} catch (Exception $e) {
+    echo "Terjadi kesalahan: " . $e->getMessage();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -225,10 +223,10 @@ try {
         <!-- Tombol kembali ke halaman sebelumnya -->
         <!-- Tombol kembali ke halaman sebelumnya -->
         <div class="navbar">
-            <a href="../admin/tambahDosen.php">Tambah Data</a>
+            <a href="../admin/tambah_mahasiswa.php">Tambah Data</a>
         </div>
         <div class="navbar">
-            <a href="../dashboard/dashboardAdmin.php">Kembali</a>
+            <a href="../dashboard/dashboardMahasiswa.php">Kembali</a>
         </div>
     </div>
 

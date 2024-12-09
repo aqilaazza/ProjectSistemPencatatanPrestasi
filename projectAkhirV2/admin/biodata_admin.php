@@ -1,11 +1,13 @@
 <?php
-// Mengimpor koneksi database dari connection.php
 include('../config/connection.php');
+include('../models/user.php');
+include('../models/admin.php');
+
+// Memanggil objek dari kelas connection untuk mendapatkan koneksi PDO
+$conn = new connection();
+$pdo = $conn->connect();
 
 try {
-    // Memanggil fungsi connection() untuk mendapatkan koneksi PDO
-    $pdo = connection();
-
     // Query untuk mengambil semua biodata admin
     $sql = "SELECT * FROM admin";
     $query = $pdo->prepare($sql);  // Menggunakan objek PDO dari connection.php
@@ -156,6 +158,15 @@ try {
             background-color: #1a4db4;
         }
 
+        .success-message {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
         @media (max-width: 768px) {
             table {
                 font-size: 14px;
@@ -177,7 +188,14 @@ try {
 <body>
     <div class="container">
         <h1>Biodata Admin</h1>
-        
+
+        <!-- Display success message if status=success in URL -->
+        <?php if (isset($_GET['status']) && $_GET['status'] == 'success') : ?>
+            <div class="success-message">
+                Data berhasil disimpan!
+            </div>
+        <?php endif; ?>
+
         <table>
             <thead>
                 <tr>

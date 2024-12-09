@@ -1,17 +1,55 @@
+<?php
+// Menghubungkan ke database dan file models
+include('../config/connection.php');
+include('../models/user.php');
+include('../models/admin.php');
+
+// Pastikan koneksi database ($db) tersedia
+$conn = new Connection();
+$pdo = $conn->connect();
+
+$admin = new Admin($pdo);  // Buat objek Admin untuk mengakses metode models
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ambil data dari form
+    $data = [
+        'nip' => $_POST['nip'],
+        'nama' => $_POST['nama'],
+        'email' => $_POST['email'],
+        'no_telp' => $_POST['no_telp'],
+        'alamat' => $_POST['alamat']
+    ];
+
+    // Cek apakah NIP sudah ada
+    if ($admin->nipExists($data['nip'])) {
+        echo "<p style='color: red; text-align: center;'>NIP sudah terdaftar. Silakan gunakan NIP lain.</p>";
+    } else {
+        // Panggil metode create() untuk menambahkan data ke database
+        if ($admin->create($data)) {
+            // Jika berhasil, arahkan ke biodata_admin.php dengan pesan sukses
+            header("Location: biodata_admin.php?status=success");
+            exit();
+        } else {
+            // Jika gagal, tampilkan pesan error
+            echo "<p style='color: red; text-align: center;'>Gagal menyimpan data. Silakan coba lagi.</p>";
+        }
+    }
+}
+
+?>
+
 <!DOCTYPE html>
-<html lang="en">
-<!-- NYOBAK REKK -->
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biodata Admin</title>
+    <title>Tambah Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         /* Menghilangkan margin dan padding default untuk body dan html */
         html, body {
-            height: 100%; /* Pastikan tinggi body dan html 100% */
-            margin: 0; /* Hapus margin */
-            padding: 0; /* Hapus padding */
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         body {
@@ -27,15 +65,15 @@
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 1); /* Menghapus transparansi pada container */
+            background-color: rgba(255, 255, 255, 1);
             border-radius: 25px;
-            padding: 40px 40px; /* Memberikan padding di dalam container */
+            padding: 40px 40px;
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
             max-width: 400px;
             width: 100%;
             text-align: center;
-            margin-top: 20px; /* Memberikan sedikit ruang di atas container */
-            margin-bottom: 20px; /* Memberikan sedikit ruang di bawah container */
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         h2 {
@@ -69,12 +107,12 @@
         }
 
         .warning-container {
-            border: 2px solid rgba(255, 0, 0, 0.5); /* Border merah transparan */
+            border: 2px solid rgba(255, 0, 0, 0.5);
             border-radius: 1px;
             padding: 1px;
             margin: 1px 0;
-            width: 300px; /* Ukuran sesuai dengan input */
-            text-align: center;
+            width: 300px;
+            text-align : center;
         }
 
         .warning {
@@ -94,33 +132,21 @@
         .login-link a:hover {
             text-decoration: underline;
         }
-
-        .warning-container {
-            border: 2px solid rgba(255, 0, 0, 0.5); /* Border merah transparan */
-            border-radius: 1px;
-            padding: 0px;
-            margin-bottom: 20px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .warning {
-            color: red;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Biodata Admin</h2>
+        <h2>Form Tambah Biodata Admin</h2>
         <div class="warning-container">
             <p class="warning">Anda harus melengkapi biodata sebelum lanjut ke laman Dashboard</p>
         </div>
-        <form action="#">
-            <input type="text" placeholder="Nama" required />
-            <input type="email" placeholder="Email" required />
-            <input type="tel" placeholder="Nomor Telepon" required />
-            <input type="text" placeholder="Alamat" required />
+        <!-- Form untuk menambah data admin -->
+        <form action="" method="POST">
+            <input type="text" name="nip" placeholder="NIP" required />
+            <input type="text" name="nama" placeholder="Nama" required />
+            <input type="email" name="email" placeholder="Email" required />
+            <input type="tel" name="no_telp" placeholder="Nomor Telepon" required />
+            <input type="text" name="alamat" placeholder="Alamat" required />
             <button type="submit">Simpan</button>
         </form>
         <div class="login-link">
