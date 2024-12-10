@@ -21,7 +21,7 @@
             <li><a href="../admin/biodata_mahasiswa.php">Biodata Mahasiswa</a></li>
             <li><a href="../admin/prestasi_akademik.php">Unggah Prestasi Akademik</a></li>
             <li><a href="../admin/validasi_prestasi.php">Validasi Prestasi Non-Akademik</a></li>
-            <li><a href="../landing.php" onclick="confirmLogout()">Keluar</a></li>
+            <li><a href="../index.php" onclick="confirmLogout()">Keluar</a></li>
         </ul>
     </div>
 
@@ -65,7 +65,7 @@
         function confirmLogout() {
             const confirmed = window.confirm("Apakah Anda yakin keluar?");
             if (confirmed) {
-                window.location.href = "../landing.php?message=logout";
+                window.location.href = "../index.php?message=logout";
             }
         }
     </script>
