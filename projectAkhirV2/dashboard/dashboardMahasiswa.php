@@ -25,7 +25,7 @@
             <li><a href="../mahasiswa/biodata_mahasiswa.php">Profil Saya</a></li>
             <li><a href="#">Prestasi Akademik</a></li>
             <li><a href="../mahasiswa/up_nonakademik.php">Prestasi Non-Akademik</a></li>
-            <li><a href="../index.php" onclick="confirmLogout()">Keluar</a></li>
+            <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
         </ul>
     </div>
 
@@ -118,6 +118,8 @@
         const confirmed = window.confirm("Apakah Anda yakin keluar?");
         if (confirmed) {
             window.location.href = "../index.php?message=logout";
+        } else {
+            window.location.href = "../dashboard/dashboardMahasiswa.php";
         }
     }
     </script>

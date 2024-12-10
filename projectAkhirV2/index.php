@@ -19,36 +19,35 @@
     <section>
         <h2>Fitur Unggulan Kami</h2>
         <div class="services">
-            <div class="service">
-                <h3>Service 1</h3>
-                <p>Short description of service 1.</p>
+            <div class="service" style="background-image: url('img/service1.png');">
+                <h3>Pengelolaan Data Prestasi Yang Terintegrasi</h3>
+                <p>Sistem memungkinkan mahasiswa untuk mencatat berbagai jenis prestasi, baik akademik maupun non-akademik.</p>
             </div>
-            <div class="service">
-                <h3>Service 2</h3>
-                <p>Short description of service 2.</p>
+            <div class="service" style="background-image: url('img/service2.png');">
+                <h3>Keamanan Data Pengguna Yang Terjamin</h3>
+                <p>Data milik pengguna yang diproses dipastikan terjaga dengan baik dan dilindungi privasi karena password terenkripsi.</p>
             </div>
-            <div class="service">
-                <h3>Service 3</h3>
-                <p>Short description of service 3.</p>
+            <div class="service" style="background-image: url('img/service3.png');">
+                <h3>Desain Antarmuka Yang Ramah Pengguna</h3>
+                <p>Desain sederhana, intuitif, dan responsif, memudahkan mahasiswa dan dosen mengakses fitur tanpa kesulitan teknis.</p>
             </div>
         </div>
+
     </section>
     <section class="news-section">
         <h2>Berita Terbaru</h2>
         <div class="news-article">
-            <h3>Berita 1</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <img src="img/news1.png" alt="Berita 1">
         </div>
         <div class="news-article">
-            <h3>Berita 2</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <img src="img/news2.png" alt="Berita 2">
         </div>
         <div class="news-article">
-            <h3>Berita 3</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <img src="img/news3.png" alt="Berita 3">
         </div>
         <button class="more-button" onclick="window.location.href='login.php'">More</button>
     </section>
+    
     <a href="https://wa.me/62895366420366" target="_blank" class="whatsapp-button"></a> <!-- Ganti dengan nomor WhatsApp Anda -->
 </div>
 <footer>
