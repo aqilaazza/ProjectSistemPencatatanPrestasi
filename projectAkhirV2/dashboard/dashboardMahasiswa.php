@@ -43,7 +43,7 @@ if (!$mahasiswa) {
     <ul>
         <li><a href="#">Beranda</a></li>
         <li><a href="../mahasiswa/profil_mahasiswa.php">Profil Saya</a></li>
-        <li><a href="#">Prestasi Akademik</a></li>
+        <li><a href="../mahasiswa/prestasi_akademik.php">Prestasi Akademik</a></li>
         <li><a href="../mahasiswa/up_nonakademik.php">Prestasi Non-Akademik</a></li>
         <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
     </ul>
