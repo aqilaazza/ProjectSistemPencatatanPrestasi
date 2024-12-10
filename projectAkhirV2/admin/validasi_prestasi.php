@@ -25,8 +25,43 @@
         </tr>
       </thead>
       <tbody>
-    <?php if (!empty($results)): ?>
-        <?php foreach ($results as $row): ?>
+      <?php
+        // Mengimpor file connection.php
+        require_once '../config/connection.php';
+
+        // Membuat instance koneksi
+        $db = new connection();
+        $conn = $db->connect();
+
+        // Mendapatkan parameter pencarian (jika ada)
+        $nim = isset($_GET['nim']) ? $_GET['nim'] : '';
+
+        // Query untuk mengambil data
+        $query = "SELECT pn.nim, m.nama_lengkap 
+                  FROM prestasi_nonakademik pn 
+                  INNER JOIN mahasiswa m ON pn.nim = m.nim";
+
+        if (!empty($nim)) {
+            $query .= " WHERE pn.nim LIKE :nim";
+        }
+
+        $stmt = $conn->prepare($query);
+
+        // Bind parameter jika ada pencarian
+        if (!empty($nim)) {
+            $stmt->bindValue(':nim', '%' . $nim . '%', PDO::PARAM_STR);
+        }
+
+        // Eksekusi query
+        $stmt->execute();
+
+        // Mengambil hasil
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Menampilkan data dalam tabel
+        if (!empty($results)):
+            foreach ($results as $row):
+        ?>
             <tr>
                 <td><?= htmlspecialchars($row['nim']) ?></td>
                 <td><?= htmlspecialchars($row['nama_lengkap']) ?></td>
@@ -40,12 +75,14 @@
                     </div>
                 </td>
             </tr>
-        <?php endforeach; ?>
-    <?php else: ?>
+        <?php
+            endforeach;
+        else:
+        ?>
         <tr>
             <td colspan="4" style="text-align: center;">Data tidak ditemukan.</td>
         </tr>
-    <?php endif; ?>
+        <?php endif; ?>
 </tbody>
 
     </table>
