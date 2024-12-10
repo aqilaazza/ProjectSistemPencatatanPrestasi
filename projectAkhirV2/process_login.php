@@ -3,7 +3,7 @@
 require_once 'config/connection.php';
 
 // Ambil parameter role dan data form
-$role = $_GET['role'] ?? '';
+$role = $_GET['role'] ?? ''; // role dari URL parameter
 $username = trim($_POST['username'] ?? '');  // Pangkas spasi pada username
 $password = trim($_POST['password'] ?? '');  // Pangkas spasi pada password
 
@@ -39,40 +39,57 @@ $stmt = $conn->prepare($query);
 $stmt->bindParam(":username", $username);
 $stmt->execute();
 
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$result = $stmt->fetch(PDO::FETCH_ASSOC);  // Menggunakan fetch untuk mengambil satu baris data
 
 // Debugging: Cek hasil query
 if (!$result) {
     echo "Username salah";
-        return;
+    return;
 }
 
-foreach ($result as $res) {
-    // Hilangkan spasi tambahan pada password dari database
-    $dbPassword = trim($res["password"]);
-    // Debugging: Periksa nilai yang digunakan untuk verifikasi
-    var_dump($dbPassword);
-    var_dump($password);
-    // Jika password di-hash, gunakan password_verify. Jika tidak, gunakan perbandingan string.
-    if ($dbPassword === $password || password_verify($password, $dbPassword)) {
-        // Login sukses, redirect sesuai role
-        switch ($role) {
-            case 'mahasiswa':
-                header("Location: ./dashboard/dashboardMahasiswa.php");
-                exit();
-            case 'admin':
-                header("Location: ./dashboard/dashboardAdmin.php");
-                exit();
-            case 'dosen':
-                header("Location: ./dashboard/dashboardDosen.php");
-                exit();
-            default:
-                echo "Role tidak valid";
-                return;
-        }
-    } else {
-        echo "Password salah";
-        return;
+// Hilangkan spasi tambahan pada password dari database
+$dbPassword = trim($result["password"]);
+
+// Verifikasi password (baik hash atau plaintext)
+if ($dbPassword === $password || password_verify($password, $dbPassword)) {
+    // Login sukses, simpan data dalam session berdasarkan role
+    session_start();
+    $_SESSION['role'] = $role;
+    $_SESSION['username'] = $username;
+
+    // Simpan data yang relevan berdasarkan role
+    switch ($role) {
+        case 'mahasiswa':
+            $_SESSION['nama'] = $result['nama'];  // Simpan nama mahasiswa
+            $_SESSION['nim'] = $username;         // Simpan NIM mahasiswa
+            break;
+        case 'admin':
+            $_SESSION['nama'] = $result['nama'];  // Simpan nama admin
+            $_SESSION['nip'] = $username;         // Simpan NIP admin
+            break;
+        case 'dosen':
+            $_SESSION['nama'] = $result['nama'];  // Simpan nama dosen
+            $_SESSION['nidn'] = $username;        // Simpan NIDN dosen
+            break;
     }
+
+    // Redirect sesuai role
+    switch ($role) {
+        case 'mahasiswa':
+            header("Location: ./dashboard/dashboardMahasiswa.php");
+            exit();
+        case 'admin':
+            header("Location: ./dashboard/dashboardAdmin.php");
+            exit();
+        case 'dosen':
+            header("Location: ./dashboard/dashboardDosen.php");
+            exit();
+        default:
+            echo "Role tidak valid";
+            return;
+    }
+} else {
+    echo "Password salah";
+    return;
 }
 ?>
