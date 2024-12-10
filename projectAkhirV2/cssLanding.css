@@ -50,32 +50,42 @@ section {
     flex-wrap: wrap;
 }
 .service {
-    background: white;
+    background: white no-repeat center center; /* Warna putih dan gambar terpusat */
+    background-size: cover; /* Gambar akan menyesuaikan ukuran elemen */
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin: 10px;
     padding: 20px;
     width: 300px;
+    height: 200px; /* Tambahkan tinggi untuk menampilkan gambar dengan proporsi baik */
     transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Menempatkan teks di bagian bawah */
+    color: #ffffff; /* Warna teks agar tetap terlihat */
 }
 .service:hover {
     transform: translateY(-5px);
 }
+
 .news-section {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.news-article {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    padding: 20px;
-    width: 90%;
-    max-width: 600px;
-    transition: transform 0.3s;
+.news-article img {
+    width: 100%; /* Gambar memenuhi lebar kontainer */
+    height: auto; /* Proporsi gambar tetap */
+    border-radius: 10px; /* Sudut membulat */
+    margin-bottom: 10px; /* Jarak dengan teks */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan */
 }
+
+.news-article h3, .news-article p {
+    margin: 0 0 10px 0; /* Jarak antar elemen */
+    text-align: center; /* Rata tengah */
+}
+
 .news-article:hover {
     transform: translateY(-5px);
 }
