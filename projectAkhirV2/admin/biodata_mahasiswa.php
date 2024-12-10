@@ -226,7 +226,7 @@ try {
             <a href="../admin/tambah_mahasiswa.php">Tambah Data</a>
         </div>
         <div class="navbar">
-            <a href="../dashboard/dashboardMahasiswa.php">Kembali</a>
+            <a href="../dashboard/dashboardAdmin.php">Kembali</a>
         </div>
     </div>
 
