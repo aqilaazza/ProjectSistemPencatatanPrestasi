@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-image: url('img/bg.png'); /* Ganti dengan path gambar Anda */
+            background-image: url('../img/bg.png'); /* Ganti dengan path gambar Anda */
             background-size: cover;
             background-position: center;
             background-attachment: fixed; /* Menjaga background tetap saat digulir */
@@ -195,7 +195,7 @@
             <button type="submit">Simpan</button>
         </form>
         <div class="login-link">
-            <p><a href="../dashboard/dashboardMahasiswa.php">Batal</a></p>
+            <p><a href="../dashboard/dashboardMahasiswa.php">Kembali</a></p>
         </div>
     </div>
 </body>
