@@ -187,7 +187,8 @@ button:active {
             <p>Tahun Masuk</p>
             <input type="text" name="jenis kelamin" placeholder="Jenis Kelamin" value="<?php echo htmlspecialchars($mahasiswa['tahun_masuk']); ?>" readonly />
             
-            <button type="button" id="editButton">Edit</button>
+            <button type="button" id="editButton" onclick="window.location.href='biodata_mahasiswa.php'">Edit</button>
+
         </form>
         <div class="login-link">
             <p><a href="../dashboard/dashboardMahasiswa.php">Kembali</a></p>
