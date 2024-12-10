@@ -33,7 +33,7 @@ switch ($role) {
 }
 
 // Query cek login berdasarkan role dan username
-$conn = connection();
+$conn = (new connection())->connect();
 $query = "SELECT * FROM $table WHERE $column = :username;";
 $stmt = $conn->prepare($query);
 $stmt->bindParam(":username", $username);

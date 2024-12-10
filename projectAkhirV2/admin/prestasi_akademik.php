@@ -4,11 +4,15 @@ include('../config/connection.php');
 
 // Menggunakan koneksi PDO
 try {
-    $pdo = connection();
+    // Membuat instance dari kelas connection
+    $dbConnection = new connection();
+    $pdo = $dbConnection->connect(); // Memanggil metode connect
     
+    // Query SQL untuk mengambil data
     $sql = "SELECT p.id_akademik, p.nim, m.nama_lengkap, p.semester, p.ip
-    FROM prestasi_akademik p 
-    JOIN mahasiswa m ON p.nim = m.nim ORDER BY p.id_akademik DESC";
+            FROM prestasi_akademik p 
+            JOIN mahasiswa m ON p.nim = m.nim 
+            ORDER BY p.id_akademik DESC";
     $stmt = $pdo->prepare($sql); // Memasukkan query ke dalam PDO statement
     $stmt->execute(); // Menjalankan query
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Mengambil hasil dalam bentuk array
