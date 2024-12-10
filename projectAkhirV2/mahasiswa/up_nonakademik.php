@@ -195,7 +195,7 @@
             <button type="submit">Simpan</button>
         </form>
         <div class="login-link">
-            <p><a href="dashboard_mahasiswa.php">Batal</a></p>
+            <p><a href="../dashboard/dashboardMahasiswa.php">Batal</a></p>
         </div>
     </div>
 </body>

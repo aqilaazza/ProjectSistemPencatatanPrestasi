@@ -18,10 +18,10 @@
         <h2>Dashboard</h2>
         <ul>
             <li><a href="#">Beranda</a></li>
-            <li><a href="#">Profil Saya</a></li>
-            <li><a href="#">Prestasi Akademik</a></li>
+            <li><a href="../dosen/biodata_dosen.php">Profil Saya</a></li>
+            <li><a href="../dosen/prestasi_akademik_dosen.php">Prestasi Akademik</a></li>
             <li><a href="#">Prestasi Non-Akademik</a></li>
-            <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
+            <li><a href="../landing.php" onclick="confirmLogout()">Keluar</a></li>
         </ul>
     </div>
 
@@ -138,7 +138,7 @@
         const confirmed = window.confirm("Apakah Anda yakin keluar?");
         if (confirmed) {
             // Arahkan ke login.php dengan query parameter untuk menampilkan pesan logout
-            window.location.href = "login.php?message=logout";
+            window.location.href = "../landing.php?message=logout";
         }
     }
     </script>

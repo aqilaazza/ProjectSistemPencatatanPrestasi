@@ -112,9 +112,16 @@
             <p class="warning">Anda harus melengkapi biodata sebelum lanjut ke laman Dashboard</p>
         </div>
         <form action="#">
-            <input type="text" placeholder="Nama" required />
+            <input type="text" placeholder="NIDN" required />
+            <input type="text" placeholder="Nama Lengkap" required />
+            <input type="email" placeholder="Email" required />
+            <input type="tel" placeholder="No. Telp" required />
+            <input type="text" placeholder="Jabatan" required />
             <input type="text" placeholder="Alamat" required />
-            <input type="tel" placeholder="Nomor Telepon" required />
+            
+            <label for="tglLahir">Tgl Lahir</label>
+            <input type="date" id="tglLahir" required />
+            
             <input type="text" placeholder="Kota Kelahiran" required />
             <select required>
                 <option value="" disabled selected hidden>Agama</option>
@@ -124,14 +131,10 @@
                 <option value="Buddha">Buddha</option>
                 <option value="Konghucu">Konghucu</option>
             </select>
-            <input type="text" placeholder="Jabatan" required />
-            <input type="text" placeholder="Program Studi" required />
-            <input type="text" placeholder="Mata Kuliah Utama" required />
-            <input type="email" placeholder="Email" required />
             <button type="submit">Simpan</button>
         </form>
         <div class="login-link">
-            <p><a href="login.php">Kembali ke Login</a></p>
+            <p><a href="../dashboard/dashboardDosen.php">Kembali ke Login</a></p>
         </div>
     </div>
 </body>
