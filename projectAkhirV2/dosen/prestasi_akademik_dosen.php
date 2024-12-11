@@ -9,12 +9,26 @@ try {
     // Memanggil metode connect() untuk mendapatkan koneksi PDO
     $pdo = $dbConnection->connect();
 
-    // Query untuk mengambil semua data prestasi akademik
+    // Cek apakah ada parameter NIM pada URL
+    $nimFilter = isset($_GET['nim']) ? trim($_GET['nim']) : '';
+
+    // Query dasar untuk mengambil data prestasi akademik
     $sql = "SELECT pn.nim, m.nama_lengkap, pn.semester, pn.ip 
             FROM prestasi_akademik pn 
             INNER JOIN mahasiswa m ON pn.nim = m.nim";
 
-    $query = $pdo->prepare($sql);  // Menggunakan objek PDO dari connection.php
+    // Jika ada filter NIM, tambahkan klausa WHERE
+    if (!empty($nimFilter)) {
+        $sql .= " WHERE pn.nim = :nim";
+    }
+
+    $query = $pdo->prepare($sql);
+
+    // Bind parameter jika ada filter NIM
+    if (!empty($nimFilter)) {
+        $query->bindParam(':nim', $nimFilter, PDO::PARAM_STR);
+    }
+
     $query->execute();
     $results = $query->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
