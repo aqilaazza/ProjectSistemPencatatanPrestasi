@@ -208,6 +208,7 @@ try {
             </div>
         <?php endif; ?>
 
+
         <table>
             <thead>
                 <tr>

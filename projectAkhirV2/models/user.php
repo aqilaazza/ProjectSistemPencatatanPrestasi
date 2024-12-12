@@ -19,6 +19,7 @@ class user {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
     // Menghapus data berdasarkan ID
     public function delete($id, $field = 'id') {
         $query = "DELETE FROM " . $this->table . " WHERE $field = :id";
