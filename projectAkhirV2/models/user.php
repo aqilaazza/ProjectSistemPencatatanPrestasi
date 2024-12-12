@@ -26,5 +26,10 @@ class user {
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
+
+     // Mengembalikan nama tabel yang digunakan
+     public function getTable() {
+        return $this->table;
+    }
 }
 ?>

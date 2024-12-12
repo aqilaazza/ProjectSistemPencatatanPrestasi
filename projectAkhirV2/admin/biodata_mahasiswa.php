@@ -3,6 +3,7 @@ include('../config/connection.php');
 include('../models/user.php');
 include('../models/mahasiswa.php');
 
+$message = '';
 try {
     // Membuat instance dari class connection dan user
     $dbConnection = new connection();
@@ -13,10 +14,18 @@ try {
     
     // Mengambil semua data mahasiswa dengan metode getAll dari class user
     $result = $mahasiswa->getAll();
+
+    // Pesan sukses/error dihapus
+    if (isset($_GET['message'])) {
+        if ($_GET['message'] === 'success') {
+            $message = "<p style='color: green;'>Data berhasil dihapus.</p>";
+        } elseif ($_GET['message'] === 'error') {
+            $message = "<p style='color: red;'>Gagal menghapus data.</p>";
+        }
+    }
 } catch (Exception $e) {
     echo "Terjadi kesalahan: " . $e->getMessage();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -144,8 +153,11 @@ try {
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
         <h1>Data Mahasiswa</h1>
+
+        <!-- Pesan sukses/error -->
+        <?= $message ?>
 
         <!-- Tabel untuk menampilkan data mahasiswa -->
         <table>
@@ -169,46 +181,38 @@ try {
             </thead>
             <tbody>
                 <?php
-                if ($result) {
+                if (!empty($result)) {
                     foreach ($result as $row) {
                         echo "<tr>";
-                        echo "<td>" . $row['nim'] . "</td>";
-                        echo "<td>" . $row['nama_lengkap'] . "</td>";
-                        echo "<td>" . $row['email'] . "</td>";
-                        echo "<td>" . $row['no_telp'] . "</td>";
-                        echo "<td>" . $row['agama'] . "</td>";
-                        echo "<td>" . $row['nama_ortu'] . "</td>";
-                        echo "<td>" . $row['jenis_kelamin'] . "</td>";
-                        echo "<td>" . $row['kota_kelahiran'] . "</td>";
+                        echo "<td>" . htmlspecialchars($row['nim']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['nama_lengkap']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['no_telp']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['agama']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['nama_ortu']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['jenis_kelamin']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['kota_kelahiran']) . "</td>";
 
-                        // Mengonversi tanggal lahir jika ada
-                        $tgl_lahir = $row['tgl_lahir']; 
-                        if ($tgl_lahir instanceof DateTime) {
-                            $tgl_lahir = $tgl_lahir->format('d-m-Y'); 
-                        } else {
-                            $tgl_lahir = date('d-m-Y', strtotime($tgl_lahir));
-                        }
-                        echo "<td>" . $tgl_lahir . "</td>";
+                        $tgl_lahir = date('d-m-Y', strtotime($row['tgl_lahir']));
+                        echo "<td>" . htmlspecialchars($tgl_lahir) . "</td>";
 
-                        echo "<td>" . $row['tahun_masuk'] . "</td>";
-                        echo "<td>" . $row['nama_prodi'] . "</td>";
-                        echo "<td>" . $row['no_telp_ortu'] . "</td>";
-                        echo "<td>" . $row['no_telp_wali'] . "</td>";
+                        echo "<td>" . htmlspecialchars($row['tahun_masuk']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['nama_prodi']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['no_telp_ortu']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['no_telp_wali']) . "</td>";
 
                         // Tombol Aksi
                         echo "<td>
-                                <!-- Tombol Edit -->
                                 <form action='edit_mahasiswa.php' method='get' style='display:inline-block;'>
-                                    <input type='hidden' name='nim' value='" . $row['nim'] . "'>
+                                    <input type='hidden' name='nim' value='" . htmlspecialchars($row['nim']) . "'>
                                     <button type='submit' class='btn btn-edit'>
                                         <i class='fa fa-edit'></i> Edit
                                     </button>
                                 </form>
-                                <!-- Tombol Hapus -->
-                                <form action='hapus_mahasiswa.php' method='get' style='display:inline-block;' onsubmit='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\");'>
-                                    <input type='hidden' name='nim' value='" . $row['nim'] . "'>
-                                    <button type='submit' class='btn btn-delete'><i class='fa fa-trash'></i> Hapus
-                                    </button>
+                                <form action='../fungsi/hapus.php' method='post' style='display:inline-block;' onsubmit='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\");'>
+                                    <input type='hidden' name='id' value='" . htmlspecialchars($row['nim']) . "'>
+                                    <input type='hidden' name='type' value='mahasiswa'>
+                                    <button type='submit' class='btn btn-delete'><i class='fa fa-trash'></i> Hapus</button>
                                 </form>
                             </td>";
                         echo "</tr>";
@@ -220,8 +224,7 @@ try {
             </tbody>
         </table>
 
-        <!-- Tombol kembali ke halaman sebelumnya -->
-        <!-- Tombol kembali ke halaman sebelumnya -->
+        <!-- Tombol kembali -->
         <div class="navbar">
             <a href="../admin/tambah_mahasiswa.php">Tambah Data</a>
         </div>

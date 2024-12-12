@@ -16,6 +16,7 @@ try {
 } catch (PDOException $e) {
     die("Query gagal: " . $e->getMessage());
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +59,7 @@ try {
         h1 {
             text-align: center;
             margin-bottom: 30px;
-            color : black;
+            color: black;
         }
 
         table {
@@ -158,12 +159,23 @@ try {
             background-color: #1a4db4;
         }
 
+        .message-container {
+            margin-bottom: 20px;
+        }
+
         .success-message {
             background-color: #4CAF50; /* Green */
             color: white;
             padding: 10px;
             text-align: center;
-            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .error-message {
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            text-align: center;
             border-radius: 5px;
         }
 
@@ -189,10 +201,10 @@ try {
     <div class="container">
         <h1>Biodata Admin</h1>
 
-        <!-- Display success message if status=success in URL -->
-        <?php if (isset($_GET['status']) && $_GET['status'] == 'success') : ?>
+        <!-- Display success messages based on the 'message' query parameter -->
+        <?php if (isset($_GET['message']) && $_GET['message'] == 'success') : ?>
             <div class="success-message">
-                Data berhasil disimpan!
+                Data berhasil dihapus!
             </div>
         <?php endif; ?>
 
@@ -208,27 +220,29 @@ try {
                 </tr>
             </thead>
             <tbody>
-                <?php
-                foreach ($results as $row) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row["nip"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["nama"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["no_telp"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["alamat"]) . "</td>";
-                    echo "<td class='action-buttons'>";
-                    echo "<form action='edit_admin.php' method='get'>";
-                    echo "<input type='hidden' name='nip' value='" . htmlspecialchars($row['nip']) . "'>";
-                    echo "<button type='submit' class='edit-button'><i class='fas fa-edit'></i> Edit</button>";
-                    echo "</form>";
-                    echo "<form action='hapus_admin.php' method='get' onsubmit='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\");'>";
-                    echo "<input type='hidden' name='nip' value='" . htmlspecialchars($row['nip']) . "'>";
-                    echo "<button type='submit' class='delete-button'><i class='fas fa-trash'></i> Hapus</button>";
-                    echo "</form>";
-                    echo "</td>";
-                    echo "</tr>";
-                }
-                ?>
+                    <?php
+                        foreach ($results as $row) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row["nip"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["nama"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["no_telp"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["alamat"]) . "</td>";
+                            echo "<td class='action-buttons'>";
+                            echo "<form action='edit_admin.php' method='get'>";
+                            echo "<input type='hidden' name='nip' value='" . htmlspecialchars($row['nip']) . "'>";
+                            echo "<button type='submit' class='edit-button'><i class='fas fa-edit'></i> Edit</button>";
+                            echo "</form>";
+                            // Form untuk menghapus data admin
+                            echo "<form action='../fungsi/hapus.php' method='POST' onsubmit='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\");'>";
+                            echo "<input type='hidden' name='id' value='" . htmlspecialchars($row['nip']) . "'>";
+                            echo "<input type='hidden' name='type' value='admin'>";
+                            echo "<button type='submit' class='delete-button'><i class='fas fa-trash'></i> Hapus</button>";
+                            echo "</form>";
+                            echo "</td>";
+                            echo "</tr>";
+                        }
+                        ?>
             </tbody>
         </table>
 

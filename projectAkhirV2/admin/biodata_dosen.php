@@ -19,9 +19,14 @@ try {
     die();
 }
 
-if (isset($_SESSION['success_message'])) {
-    echo "<script>alert('" . $_SESSION['success_message'] . "');</script>";
-    unset($_SESSION['success_message']); // Hapus pesan setelah ditampilkan
+// Pesan sukses/error
+$message = "";
+if (isset($_GET['message'])) {
+    if ($_GET['message'] === 'success') {
+        $message = "<p style='color: green;'>Data berhasil dihapus.</p>";
+    } elseif ($_GET['message'] === 'error') {
+        $message = "<p style='color: red;'>Gagal menghapus data.</p>";
+    }
 }
 ?>
 
@@ -146,6 +151,8 @@ if (isset($_SESSION['success_message'])) {
 <div class="container">
     <h1>Data Dosen</h1>
 
+    <?php if ($message) echo $message; ?> <!-- Menampilkan pesan -->
+
     <table>
         <thead>
             <tr>
@@ -175,17 +182,16 @@ if (isset($_SESSION['success_message'])) {
                         <td><?= htmlspecialchars(date('d-m-Y', strtotime($row['tgl_lahir']))) ?></td>
                         <td><?= htmlspecialchars($row['agama']) ?></td>
                         <td>
-                            <form action="/projectAkhirV2/admin/edit_dosen.php" method="get" style="display:inline-block;">
+                            <form action="edit_dosen.php" method="get" style="display:inline-block;">
                                 <input type="hidden" name="nidn" value="<?= htmlspecialchars($row['nidn']) ?>">
                                 <button type="submit" class="btn btn-edit">
                                     <i class="fa fa-edit"></i> Edit
                                 </button>
                             </form>
-                            <form action="hapus_dosen.php" method="get" style="display:inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                <input type="hidden" name="nidn" value="<?= htmlspecialchars($row['nidn']) ?>">
-                                <button type="submit" class="btn btn-delete">
-                                    <i class="fa fa-trash"></i> Hapus
-                                </button>
+                            <form action='../fungsi/hapus.php' method='post' style='display:inline-block;' onsubmit='return confirm("Apakah Anda yakin ingin menghapus data ini?");'>
+                                <input type='hidden' name='id' value="<?= htmlspecialchars($row['nidn']) ?>">
+                                <input type='hidden' name='type' value='dosen'>
+                                <button type='submit' class='btn btn-delete'><i class='fa fa-trash'></i> Hapus</button>
                             </form>
                         </td>
                     </tr>
@@ -199,7 +205,7 @@ if (isset($_SESSION['success_message'])) {
     </table>
 
     <div class="navbar">
-        <a href="/projectAkhirV2/admin/tambah_dosen.php">Tambah Data</a>
+        <a href="tambah_dosen.php">Tambah Data</a>
         <a href="../dashboard/dashboardAdmin.php">Kembali</a>
     </div>
 </div>
