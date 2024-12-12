@@ -1,3 +1,27 @@
+<?php
+session_start();
+
+// Pastikan mahasiswa sudah login
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'dosen') {
+    die("Akses ditolak. Anda harus login terlebih dahulu.");
+}
+
+$nidn = $_SESSION['nidn'];
+$nama = $_SESSION['nama'];
+
+require_once '../config/connection.php';
+$conn = (new connection())->connect();
+$query = "SELECT * FROM dosen WHERE nidn = :nidn";
+$stmt = $conn->prepare($query);
+$stmt->bindParam(':nidn', $nidn);
+$stmt->execute();
+$dosen = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$dosen) {
+    die("Data dosen tidak ditemukan.");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +51,7 @@
 
     <div class="main-content" id="main-content">
         <div class="header">
-            <h1>Selamat Datang, [Dosen]</h1>
+            <h1>Selamat Datang, <?php echo htmlspecialchars($dosen['nama']); ?>!</h1>
         </div>
 
         <div class="tabs">
