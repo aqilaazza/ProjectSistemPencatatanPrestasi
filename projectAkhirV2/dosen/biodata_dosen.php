@@ -1,3 +1,29 @@
+<?php
+session_start();
+
+// Pastikan pengguna sudah login sebagai dosen
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'dosen') {
+    die("Akses ditolak. Anda harus login terlebih dahulu.");
+}
+
+// Ambil NIDN dari session
+$nidn = $_SESSION['nidn'];
+
+require_once '../config/connection.php';
+$conn = (new connection())->connect();
+
+// Ambil data dosen berdasarkan NIDN
+$query = "SELECT * FROM dosen WHERE nidn = :nidn";
+$stmt = $conn->prepare($query);
+$stmt->bindParam(':nidn', $nidn);
+$stmt->execute();
+$dosen = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$dosen) {
+    echo "<p>Data dosen tidak ditemukan. Silakan hubungi administrator.</p>";
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,30 +137,28 @@
         <div class="warning-container">
             <p class="warning">Anda harus melengkapi biodata sebelum lanjut ke laman Dashboard</p>
         </div>
-        <form action="#">
-            <input type="text" placeholder="NIDN" required />
-            <input type="text" placeholder="Nama Lengkap" required />
-            <input type="email" placeholder="Email" required />
-            <input type="tel" placeholder="No. Telp" required />
-            <input type="text" placeholder="Jabatan" required />
-            <input type="text" placeholder="Alamat" required />
-            
-            <label for="tglLahir">Tgl Lahir</label>
-            <input type="date" id="tglLahir" required />
-            
-            <input type="text" placeholder="Kota Kelahiran" required />
-            <select required>
-                <option value="" disabled selected hidden>Agama</option>
-                <option value="Islam">Islam</option>
-                <option value="Kristen">Kristen</option>
-                <option value="Hindu">Hindu</option>
-                <option value="Buddha">Buddha</option>
-                <option value="Konghucu">Konghucu</option>
-            </select>
-            <button type="submit">Simpan</button>
-        </form>
+        <form action="edit_biodataDosen.php" method="POST">
+                <input type="text" name="nama_lengkap" placeholder="Nama Lengkap" value="<?= htmlspecialchars($dosen['nama'] ?? '') ?>" required />
+                <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($dosen['email'] ?? '') ?>" required />
+                <input type="tel" name="no_telp" placeholder="No. Telp" value="<?= htmlspecialchars($dosen['no_telp'] ?? '') ?>" required />
+                <input type="text" name="jabatan" placeholder="Jabatan" value="<?= htmlspecialchars($dosen['jabatan'] ?? '') ?>" required />
+                <input type="text" name="alamat" placeholder="Alamat" value="<?= htmlspecialchars($dosen['alamat'] ?? '') ?>" required />
+                <label for="tglLahir">Tgl Lahir</label>
+                <input type="date" id="tglLahir" name="tgl_lahir" value="<?= htmlspecialchars($dosen['tgl_lahir'] ?? '') ?>" required />
+                <input type="text" name="kota_kelahiran" placeholder="Kota Kelahiran" value="<?= htmlspecialchars($dosen['kota_kelahiran'] ?? '') ?>" required />
+                <select name="agama" required>
+                    <option value="" disabled hidden <?= empty($dosen['agama']) ? 'selected' : '' ?>>Agama</option>
+                    <option value="Islam" <?= ($dosen['agama'] ?? '') === 'Islam' ? 'selected' : '' ?>>Islam</option>
+                    <option value="Kristen" <?= ($dosen['agama'] ?? '') === 'Kristen' ? 'selected' : '' ?>>Kristen</option>
+                    <option value="Hindu" <?= ($dosen['agama'] ?? '') === 'Hindu' ? 'selected' : '' ?>>Hindu</option>
+                    <option value="Buddha" <?= ($dosen['agama'] ?? '') === 'Buddha' ? 'selected' : '' ?>>Buddha</option>
+                    <option value="Konghucu" <?= ($dosen['agama'] ?? '') === 'Konghucu' ? 'selected' : '' ?>>Konghucu</option>
+                </select>
+                <button type="submit">Simpan</button>
+            </form>
+
         <div class="login-link">
-            <p><a href="../dashboard/dashboardDosen.php">Kembali ke Login</a></p>
+            <p><a href="../dashboard/dashboardDosen.php">Kembali</a></p>
         </div>
     </div>
 </body>
