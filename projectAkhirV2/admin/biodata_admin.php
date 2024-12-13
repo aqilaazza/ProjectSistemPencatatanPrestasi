@@ -201,10 +201,17 @@ try {
     <div class="container">
         <h1>Biodata Admin</h1>
 
-        <!-- Display success messages based on the 'message' query parameter -->
-        <?php if (isset($_GET['message']) && $_GET['message'] == 'success') : ?>
+        <?php if (isset($_GET['message'])) : ?>
             <div class="success-message">
-                Data berhasil dihapus!
+                <?php 
+                    if ($_GET['message'] == 'added') {
+                        echo "Data berhasil ditambahkan!";
+                    } elseif ($_GET['message'] == 'updated') {
+                        echo "Data berhasil diperbarui!";
+                    } elseif ($_GET['message'] == 'deleted') {
+                        echo "Data berhasil dihapus!";
+                    }
+                ?>
             </div>
         <?php endif; ?>
 

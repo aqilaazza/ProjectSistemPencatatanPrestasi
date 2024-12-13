@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $admin->update($nip, $updateData);
 
         if ($result) {
-            header("Location: biodata_admin.php?status=success");
+            header("Location: biodata_admin.php?message=updated");
             exit();
         } else {
             $error = "Gagal memperbarui data admin.";
@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (PDOException $e) {
         $error = "Kesalahan: " . $e->getMessage();
     }
+    
 }
 ?>
 

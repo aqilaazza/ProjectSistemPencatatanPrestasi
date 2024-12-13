@@ -1,16 +1,14 @@
 <?php
-// Menghubungkan ke database dan file models
 include('../config/connection.php');
 include('../models/user.php');
 include('../models/admin.php');
 
-// Pastikan koneksi database ($db) tersedia
+// Pastikan koneksi database ($pdo) tersedia
 $conn = new Connection();
 $pdo = $conn->connect();
 
-$admin = new Admin($pdo);  // Buat objek Admin untuk mengakses metode models
+$admin = new Admin($pdo); // Buat objek Admin untuk mengakses metode models
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil data dari form
     $data = [
         'nip' => $_POST['nip'],
         'nama' => $_POST['nama'],
@@ -19,23 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'alamat' => $_POST['alamat']
     ];
 
-    // Cek apakah NIP sudah ada
     if ($admin->nipExists($data['nip'])) {
         echo "<p style='color: red; text-align: center;'>NIP sudah terdaftar. Silakan gunakan NIP lain.</p>";
     } else {
-        // Panggil metode create() untuk menambahkan data ke database
         if ($admin->create($data)) {
-            // Jika berhasil, arahkan ke biodata_admin.php dengan pesan sukses
-            header("Location: biodata_admin.php?status=success");
+            header("Location: biodata_admin.php?message=added"); // Pengalihan dengan pesan notifikasi
             exit();
         } else {
-            // Jika gagal, tampilkan pesan error
             echo "<p style='color: red; text-align: center;'>Gagal menyimpan data. Silakan coba lagi.</p>";
         }
     }
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">

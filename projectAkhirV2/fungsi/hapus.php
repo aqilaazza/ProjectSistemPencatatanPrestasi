@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 // Cek apakah ada baris yang dihapus
                 if ($stmt->rowCount() > 0) {
-                    header("Location: ../admin/biodata_admin.php?message=success");
+                    header("Location: ../admin/biodata_admin.php?message=deleted");
                 } else {
                     header("Location: ../admin/biodata_admin.php?message=error");
                 }
