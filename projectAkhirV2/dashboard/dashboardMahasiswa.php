@@ -25,6 +25,14 @@ if (!$mahasiswa) {
     die("Data mahasiswa tidak ditemukan.");
 }
 
+//query untuk ambil data dan status validasi (Masih error ini connectionya)
+// Data dummy untuk validasi prestasi non-akademik
+$validasi_results = [
+    ['nama_kompetisi' => 'Lomba Cerdas Cermat', 'status' => 'Tervalidasi'],
+    ['nama_kompetisi' => 'Penyuluhan Kesehatan', 'status' => 'Belum Tervalidasi'],
+    ['nama_kompetisi' => 'Festival Seni', 'status' => 'Tervalidasi']
+];
+
 ?>
 
 <!DOCTYPE html>
@@ -52,6 +60,30 @@ if (!$mahasiswa) {
 <div class="main-content">
     <div class="header">
         <h1>Selamat Datang, <?php echo htmlspecialchars($mahasiswa['nama_lengkap']); ?>!</h1>
+    </div>
+    <!-- Hasil Validasi Prestasi Non Akademik -->
+    <div class="validasi-section">
+        <h2>Hasil Validasi Prestasi Non Akademik</h2>
+        <?php if (count($validasi_results) > 0): ?>
+            <table class="validasi-table">
+                <thead>
+                    <tr>
+                        <th>Nama Kompetisi</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($validasi_results as $validasi): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($validasi['nama_kompetisi']); ?></td>
+                            <td><?php echo htmlspecialchars($validasi['status']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p>Belum ada prestasi non-akademik yang divalidasi.</p>
+        <?php endif; ?>
     </div>
 </div>
 

@@ -8,12 +8,9 @@
     <link rel="stylesheet" href="cssAdmin.css">
 </head>
 <body>
-    <button class="toggle-sidebar" onclick="toggleSidebar()">
-        <span class="toggle-icon" id="sidebar-icon">></span>
-    </button>
 
     <div class="sidebar">
-        <h2>Dashboard</h2>
+        <h2>Dashboard Admin</h2>
         <ul>
             <li><a href="#">Beranda</a></li>
             <li><a href="../admin/biodata_admin.php">Biodata Admin</a></li>
@@ -27,50 +24,72 @@
 
     <div class="main-content" id="main-content">
         <div class="header">
-            <h1>Selamat Datang, [Admin]</h1>
+            <h1>Selamat Datang, [Admin]!</h1>
+        </div>
+
+        <div class="card">
+            <h2>Jadwal Piket Admin Validator Prestasi.mu</h2>
+            <table class="jadwal-piket-table" id="jadwal-piket-table">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be inserted here by JavaScript -->
+                </tbody>
+            </table>
         </div>
     </div>
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            const mainContent = document.querySelector('.main-content');
-            const sidebarIcon = document.getElementById('sidebar-icon');
+        // Array of jadwal piket admin
+        const jadwalPiket = [
+            { nama: "Dian Kurniawan", hari: "Senin", jam: "08:00 - 12:00" },
+            { nama: "Rizki Aditya", hari: "Selasa", jam: "12:00 - 16:00" },
+            { nama: "Nadia Wulandari", hari: "Rabu", jam: "08:00 - 12:00" }
+        ];
 
-            // Toggle visibility of sidebar
-            if (sidebar.style.display === 'none' || !sidebar.style.display) {
-                sidebar.style.display = 'block'; // Show sidebar
-                mainContent.style.marginLeft = '250px'; // Adjust main content margin
-                sidebarIcon.textContent = '<'; // Change icon to '<'
-            } else {
-                sidebar.style.display = 'none'; // Hide sidebar
-                mainContent.style.marginLeft = '0'; // Reset main content margin
-                sidebarIcon.textContent = '>'; // Change icon to '>'
-            }
+        // Function to render the schedule table
+        function renderJadwalPiket() {
+            const tableBody = document.querySelector("#jadwal-piket-table tbody");
+            jadwalPiket.forEach(item => {
+                const row = document.createElement("tr");
+                
+                // Create and append Nama cell
+                const tdNama = document.createElement("td");
+                tdNama.textContent = item.nama;
+                row.appendChild(tdNama);
+                
+                // Create and append Hari cell
+                const tdHari = document.createElement("td");
+                tdHari.textContent = item.hari;
+                row.appendChild(tdHari);
+                
+                // Create and append Jam cell
+                const tdJam = document.createElement("td");
+                tdJam.textContent = item.jam;
+                row.appendChild(tdJam);
+                
+                // Append the row to the table body
+                tableBody.appendChild(row);
+            });
         }
 
-        function showTab(tabName) {
-            const tabs = document.querySelectorAll('.tab');
-            const cards = document.querySelectorAll('.card');
+        // Call render function when page loads
+        renderJadwalPiket();
 
-            // Reset all tabs and cards
-            tabs.forEach(tab => tab.classList.remove('active'));
-            cards.forEach(card => (card.style.display = 'none'));
-
-            // Show the selected tab and its content
-            document.querySelector(`#${tabName}`).style.display = 'block';
-            document.querySelector(`.tab[onclick="showTab('${tabName}')"]`).classList.add('active');
-        }
-
+        // Logout confirmation function
         function confirmLogout() {
             const confirmed = window.confirm("Apakah Anda yakin keluar?");
             if (confirmed) {
                 window.location.href = "../index.php?message=logout";
             } else {
-            window.location.href = "../dashboard/dashboardAdmin.php";
+                window.location.href = "../dashboard/dashboardAdmin.php";
             }
         }
     </script>
-
 </body>
 </html>

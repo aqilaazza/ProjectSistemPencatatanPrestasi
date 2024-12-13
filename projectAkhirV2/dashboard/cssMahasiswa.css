@@ -176,3 +176,77 @@ footer {
     left: 20px;
     z-index: 10; /* Ensure it's above other elements */
 }
+
+/* Styling untuk div yang menampilkan hasil validasi */
+.validation-status {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.validation-status h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #5828E2;
+    color: white;
+}
+
+tbody tr:hover {
+    background-color: #f4f4f4;
+}
+
+.validasi-section {
+    margin-top: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.validasi-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.validasi-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.validasi-table th, .validasi-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.validasi-table th {
+    background-color: #5828E2;
+    color: white;
+}
+
+.validasi-table tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
