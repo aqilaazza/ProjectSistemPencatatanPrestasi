@@ -15,6 +15,13 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
 </head>
 <body>
     <div class="container">
+
+            <?php
+            if (isset($_GET['message']) && $_GET['message'] == 'invalid_credentials') {
+                echo '<script>alert("Coba lagi, cek kembali username dan password Anda.");</script>';
+            }
+            ?>
+
         <div class="tabs">
             <div class="tab active" onclick="showTab('mahasiswa')">Mahasiswa</div>
             <div class="tab" onclick="showTab('admin')">Admin</div>

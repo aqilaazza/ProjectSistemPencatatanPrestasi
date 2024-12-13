@@ -43,7 +43,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);  // Menggunakan fetch untuk mengambil 
 
 // Debugging: Cek hasil query
 if (!$result) {
-    echo "Username salah";
+    header("Location: login.php?message=invalid_credentials");
     return;
 }
 
@@ -89,7 +89,7 @@ if ($dbPassword === $password || password_verify($password, $dbPassword)) {
             return;
     }
 } else {
-    echo "Password salah";
+    header("Location: login.php?message=invalid_credentials");  // Redirect ke halaman login dengan pesan kesalahan
     return;
 }
 ?>
