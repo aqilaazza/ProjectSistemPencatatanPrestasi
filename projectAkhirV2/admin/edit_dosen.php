@@ -49,15 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $agama = $_POST['agama'];
 
     try {
-        // Memperbarui data dosen
-        $dosenObj->updateDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama);
+        $result = $dosenObj->updateDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama);
 
-        // Set pesan ke dalam session
-        $_SESSION['success_message'] = "Data dosen berhasil diperbarui!";
-
-        // Redirect ke halaman biodata_dosen.php
-        header("Location: biodata_dosen.php");
-        exit();
+        if ($result) { 
+            header("Location: biodata_dosen.php?message=updated");
+            exit();
+        } else {
+            $error = "Gagal memperbarui data dosen.";
+        }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
@@ -76,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-image: url('img/bg.png');
+            background-image: url('../img/bg.png');
             background-size: cover;
             background-position: center;
             display: flex;

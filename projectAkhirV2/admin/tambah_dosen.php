@@ -1,5 +1,5 @@
 <?php
-// Sertakan file koneksi dan dosen
+// Sertakan file koneksi dan model dosen
 include('../config/connection.php');
 include('../models/user.php');
 include('../models/dosen.php');
@@ -23,15 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tgl_lahir = $_POST['tgl_lahir'];
     $agama = $_POST['agama'];
 
-    try {
-        // Menambahkan data dosen ke database
-        $dosenObj->addDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama);
-        echo "<script>alert('Data dosen berhasil ditambahkan!'); window.location.href = 'biodata_dosen.php';</script>";
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+    // Pastikan mengirimkan 9 parameter
+    if ($dosenObj->addDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama)) {
+        header("Location: biodata_dosen.php?message=added");
+        exit();
+    } else {
+        echo "<p style='color: red; text-align: center;'>Gagal menyimpan data. Silakan coba lagi.</p>";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-image: url('img/bg.png');
+            background-image: url('../img/bg.png');
             background-size: cover;
             background-position: center;
             display: flex;

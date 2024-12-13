@@ -18,16 +18,6 @@ try {
     echo "Error: " . $e->getMessage();
     die();
 }
-
-// Pesan sukses/error
-$message = "";
-if (isset($_GET['message'])) {
-    if ($_GET['message'] === 'success') {
-        $message = "<p style='color: green;'>Data berhasil dihapus.</p>";
-    } elseif ($_GET['message'] === 'error') {
-        $message = "<p style='color: red;'>Gagal menghapus data.</p>";
-    }
-}
 ?>
 
 
@@ -44,7 +34,7 @@ if (isset($_GET['message'])) {
         /* Styling CSS tetap sama seperti sebelumnya */
         body {
             font-family: 'Poppins', sans-serif;
-            background-image: url('img/bg.png');
+            background-image: url('../img/bg.png');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -146,6 +136,26 @@ if (isset($_GET['message'])) {
             background-color: #ddd;
         }
 
+        .message-container {
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .error-message {
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -153,7 +163,19 @@ if (isset($_GET['message'])) {
 <div class="container">
     <h1>Data Dosen</h1>
 
-    <?php if ($message) echo $message; ?> <!-- Menampilkan pesan -->
+    <?php if (isset($_GET['message'])) : ?>
+            <div class="success-message">
+                <?php 
+                    if ($_GET['message'] == 'added') {
+                        echo "Data berhasil ditambahkan!";
+                    } elseif ($_GET['message'] == 'updated') {
+                        echo "Data berhasil diperbarui!";
+                    } elseif ($_GET['message'] == 'deleted') {
+                        echo "Data berhasil dihapus!";
+                    }
+                ?>
+            </div>
+        <?php endif; ?>
 
     <table>
         <thead>
