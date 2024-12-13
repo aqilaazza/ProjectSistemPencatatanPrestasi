@@ -2,8 +2,8 @@
 require_once '../config/connection.php';
 
 // Mengecek parameter NIM di URL
-if (isset($_GET['nim']) && !empty($_GET['nim'])) {
-    $nim = htmlspecialchars($_GET['nim']);
+if (isset($_GET['nama_kompetisi']) && !empty($_GET['nama_kompetisi'])) {
+    $namakompetisi = htmlspecialchars($_GET['nama_kompetisi']);
     $db = new Connection();
     $conn = $db->connect();
 
@@ -26,16 +26,16 @@ if (isset($_GET['nim']) && !empty($_GET['nim'])) {
         FROM 
             prestasi_nonakademik p
         WHERE 
-            p.nim = :nim
+            p.nama_kompetisi = :nama_kompetisi
     ";
 
     $stmt = $conn->prepare($query);
-    $stmt->bindParam(':nim', $nim);
+    $stmt->bindParam(':nama_kompetisi', $namakompetisi);
 
     $stmt->execute();
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
 } else {
-    $nim = null;
+    $namakompetisi = null;
     $data = null;
 }
 ?>
@@ -53,7 +53,7 @@ if (isset($_GET['nim']) && !empty($_GET['nim'])) {
     <div class="container">
         <h2>Data Prestasi Non-Akademik</h2>
 
-        <?php if ($nim): ?>
+        <?php if ($namakompetisi): ?>
             <?php if ($data): ?>
                 <form>
                     <label for="nama-kompetisi">Nama Kompetisi</label>
@@ -98,10 +98,10 @@ if (isset($_GET['nim']) && !empty($_GET['nim'])) {
                     <br>
                 </form>
             <?php else: ?>
-                <p>Data tidak ditemukan untuk NIM: <?= htmlspecialchars($nim) ?></p>
+                <p>Data tidak ditemukan untuk NIM: <?= htmlspecialchars($namakompetisi) ?></p>
             <?php endif; ?>
         <?php else: ?>
-            <p>Parameter NIM tidak tersedia.</p>
+            <p>Nama Kompetisi tidak tersedia.</p>
         <?php endif; ?>
 
         <div class="login-link">

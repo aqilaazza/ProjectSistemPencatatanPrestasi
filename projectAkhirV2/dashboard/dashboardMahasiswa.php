@@ -9,12 +9,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'mahasiswa') {
 // Ambil data mahasiswa dari session
 $nim = $_SESSION['nim'];
 $nama = $_SESSION['nama'];
-// Lakukan query untuk mengambil data mahasiswa berdasarkan NIM jika perlu
-// Misalnya mengambil data dari database berdasarkan NIM
 
 // Koneksi database dan ambil data mahasiswa berdasarkan NIM
 require_once '../config/connection.php';
 $conn = (new connection())->connect();
+
+// Query untuk mengambil data mahasiswa
 $query = "SELECT * FROM mahasiswa WHERE nim = :nim";
 $stmt = $conn->prepare($query);
 $stmt->bindParam(':nim', $nim);
@@ -25,14 +25,15 @@ if (!$mahasiswa) {
     die("Data mahasiswa tidak ditemukan.");
 }
 
-//query untuk ambil data dan status validasi (Masih error ini connectionya)
-// Data dummy untuk validasi prestasi non-akademik
-$validasi_results = [
-    ['nama_kompetisi' => 'Lomba Cerdas Cermat', 'status' => 'Tervalidasi'],
-    ['nama_kompetisi' => 'Penyuluhan Kesehatan', 'status' => 'Belum Tervalidasi'],
-    ['nama_kompetisi' => 'Festival Seni', 'status' => 'Tervalidasi']
-];
-
+// Query untuk mengambil data validasi prestasi non-akademik
+$queryValidasi = "SELECT pn.nama_kompetisi, pn.status_validasi 
+                  FROM prestasi_nonakademik pn 
+                  INNER JOIN mahasiswa m ON m.nim = pn.nim 
+                  WHERE m.nim = :nim";
+$stmtValidasi = $conn->prepare($queryValidasi);
+$stmtValidasi->bindParam(':nim', $nim);
+$stmtValidasi->execute();
+$validasi_results = $stmtValidasi->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -69,20 +70,28 @@ $validasi_results = [
                 <thead>
                     <tr>
                         <th>Nama Kompetisi</th>
-                        <th>Status</th>
+                        <th>Status Validasi</th>
+                        <th>Data</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($validasi_results as $validasi): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($validasi['nama_kompetisi']); ?></td>
-                            <td><?php echo htmlspecialchars($validasi['status']); ?></td>
+                            <td>
+                                <?php echo htmlspecialchars($validasi['nama_kompetisi']); ?>
+                            </td>
+                            <td>
+                                <?php echo htmlspecialchars($validasi['status_validasi']); ?>
+                            </td>
+                            <td>
+                            <a href="../mahasiswa/info_nonakademik.php" class="detail-button">Detail</a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         <?php else: ?>
-            <p>Belum ada prestasi non-akademik yang divalidasi.</p>
+            <p>Belum ada prestasi non-akademik yang diajukan.</p>
         <?php endif; ?>
     </div>
 </div>

@@ -55,17 +55,16 @@ if (!$dosen) {
         </div>
 
         <div class="tabs">
-            <div class="tab active" onclick="showTab('daftar_mhs')">Daftar Mahasiswa yang dibimbing</div>
-            <div class="tab" onclick="showTab('daftar_validasi')">Daftar Permintaan Validasi</div>
+            <div class="tab" onclick="showTab('status_validasi')">Status Permintaan Validasi Prestasi Non Akademik</div>
         </div>
 
-        <div class="card" id="daftar_mhs" style="display: block;">
+        <div class="card" id="status_validasi" style="display: block;">
             <h2>Mahasiswa 1</h2>
-            <ul>
-                <li>NIM :</li>
-                <li>Program Studi :</li>
-                <li>Prestasi :</li>
-            </ul>
+            <table>
+                <thead>
+                    <tr></tr>
+                </thead>
+            </table>
         </div>
 
         <div class="card" id="daftar_mhs_2" style="display: none;">
