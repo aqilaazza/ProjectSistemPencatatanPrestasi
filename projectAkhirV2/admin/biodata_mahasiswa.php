@@ -14,15 +14,6 @@ try {
     
     // Mengambil semua data mahasiswa dengan metode getAll dari class user
     $result = $mahasiswa->getAll();
-
-    // Pesan sukses/error dihapus
-    if (isset($_GET['message'])) {
-        if ($_GET['message'] === 'success') {
-            $message = "<p style='color: green;'>Data berhasil dihapus.</p>";
-        } elseif ($_GET['message'] === 'error') {
-            $message = "<p style='color: red;'>Gagal menghapus data.</p>";
-        }
-    }
 } catch (Exception $e) {
     echo "Terjadi kesalahan: " . $e->getMessage();
 }
@@ -150,6 +141,26 @@ try {
             background-color: #ddd;
         }
 
+        .error, .success-message {
+            margin: 10px 0;
+            font-size: 14px;
+            padding: 10px;
+            border-radius: 5px;
+            display: block; /* Pastikan terlihat */
+            text-align: center;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+
     </style>
 </head>
 <body>
@@ -157,8 +168,19 @@ try {
 <div class="container">
         <h1>Data Mahasiswa</h1>
 
-        <!-- Pesan sukses/error -->
-        <?= $message ?>
+        <?php if (isset($_GET['message'])) : ?>
+            <div class="success-message">
+                <?php 
+                    if ($_GET['message'] == 'added') {
+                        echo "Data berhasil ditambahkan!";
+                    } elseif ($_GET['message'] == 'updated') {
+                        echo "Data berhasil diperbarui!";
+                    } elseif ($_GET['message'] == 'deleted') {
+                        echo "Data berhasil dihapus!";
+                    }
+                ?>
+            </div>
+        <?php endif; ?>
 
         <!-- Tabel untuk menampilkan data mahasiswa -->
         <table>

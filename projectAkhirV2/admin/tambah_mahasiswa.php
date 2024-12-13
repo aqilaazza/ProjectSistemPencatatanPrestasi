@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $mahasiswa = new mahasiswa($pdo);
     if ($mahasiswa->create($data)) {
-        echo "<script>alert('Data berhasil ditambahkan!'); window.location.href='biodata_mahasiswa.php';</script>";
+        header("Location: biodata_mahasiswa.php?message=added");
     } else {
         echo "<script>alert('Gagal menambahkan data.');</script>";
     }

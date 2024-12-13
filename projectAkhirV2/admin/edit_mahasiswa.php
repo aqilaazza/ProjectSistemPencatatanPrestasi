@@ -15,7 +15,6 @@ if (!isset($_GET['nim'])) {
 $nim = $_GET['nim'];
 $mahasiswa = new Mahasiswa($pdo);
 
-// Mengambil data mahasiswa berdasarkan NIM
 try {
     $sql = "SELECT * FROM mahasiswa WHERE nim = :nim";
     $query = $pdo->prepare($sql);
@@ -30,8 +29,6 @@ try {
     die("Kesalahan: " . $e->getMessage());
 }
 
-// Memproses data yang dikirim melalui formulir
-// Memproses data yang dikirim melalui formulir
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama_lengkap = $_POST['nama_lengkap'];
     $email = $_POST['email'];
@@ -42,19 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kota_kelahiran = $_POST['kota_kelahiran'];
     $tgl_lahir = $_POST['tgl_lahir'];
     $tahun_masuk = $_POST['tahun_masuk'];
-
-    // Ambil program studi yang ada (jika tidak diubah, biarkan tetap yang lama)
-    $id_prodi = $_POST['id_prodi'] ?: $data['id_prodi'];  // Jika tidak diubah, gunakan nilai yang ada di database
-
+    $id_prodi = $_POST['id_prodi'] ?: $data['id_prodi']; 
     $no_telp_ortu = $_POST['no_telp_ortu'];
     $no_telp_wali = $_POST['no_telp_wali'];
 
-    // Validasi program studi
-    if (!in_array($id_prodi, [41, 42])) {
-        die("Program Studi tidak valid.");
-    }
-
-    // Memperbarui data mahasiswa
     try {
         $updateData = [
             'nama_lengkap' => $nama_lengkap,
@@ -66,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'kota_kelahiran' => $kota_kelahiran,
             'tgl_lahir' => $tgl_lahir,
             'tahun_masuk' => $tahun_masuk,
-            'id_prodi' => $id_prodi,  // Menggunakan nilai program studi yang diperbarui atau yang lama
+            'id_prodi' => $id_prodi,  
             'no_telp_ortu' => $no_telp_ortu,
             'no_telp_wali' => $no_telp_wali
         ];
@@ -74,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $mahasiswa->update($nim, $updateData);
 
         if ($result) {
-            header("Location: biodata_mahasiswa.php?status=success");
+            header("Location: biodata_mahasiswa.php?message=updated");
             exit();
         } else {
             $error = "Gagal memperbarui data mahasiswa.";
