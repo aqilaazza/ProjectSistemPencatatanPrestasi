@@ -1,39 +1,54 @@
 <?php
-// Mengimpor koneksi database dari connection.php
+// Mengimpor kelas connection
 include('../config/connection.php');
 
-try {
-    // Membuat instance dari class connection
-    $dbConnection = new connection();
+// Membuat objek dari kelas connection
+$db = new connection();
+$conn = $db->connect(); // Mendapatkan koneksi database
 
-    // Memanggil metode connect() untuk mendapatkan koneksi PDO
-    $pdo = $dbConnection->connect();
-
-    // Cek apakah ada parameter NIM pada URL
-    $nimFilter = isset($_GET['nim']) ? trim($_GET['nim']) : '';
-
-    // Query dasar untuk mengambil data prestasi akademik
-    $sql = "SELECT pn.nim, m.nama_lengkap, pn.semester, pn.ip 
-            FROM prestasi_akademik pn 
-            INNER JOIN mahasiswa m ON pn.nim = m.nim";
-
-    // Jika ada filter NIM, tambahkan klausa WHERE
-    if (!empty($nimFilter)) {
-        $sql .= " WHERE pn.nim = :nim";
+// Fungsi untuk menghitung gelar berdasarkan IPK
+function hitung_gelar($ipk) {
+    if ($ipk >= 3.9 && $ipk <= 4.0) {
+        return 'Summa cum laude';
+    } elseif ($ipk >= 3.7 && $ipk < 3.9) {
+        return 'Magna cum laude';
+    } elseif ($ipk >= 3.5 && $ipk < 3.7) {
+        return 'Cum laude';
     }
-
-    $query = $pdo->prepare($sql);
-
-    // Bind parameter jika ada filter NIM
-    if (!empty($nimFilter)) {
-        $query->bindParam(':nim', $nimFilter, PDO::PARAM_STR);
-    }
-
-    $query->execute();
-    $results = $query->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Query gagal: " . $e->getMessage());
+    return '-';
 }
+
+// Mengambil parameter NIM dari URL (jika ada)
+$nim = isset($_GET['nim']) ? $_GET['nim'] : '';
+
+// Query untuk mengambil data mahasiswa dan prestasi akademik
+$sql = "SELECT m.nim, m.nama_lengkap, 
+            AVG(CAST(pa.ip AS DECIMAL(4, 2))) AS ipk
+        FROM mahasiswa m
+        JOIN prestasi_akademik pa ON m.nim = pa.nim";
+
+// Menambahkan kondisi pencarian berdasarkan NIM jika ada
+if (!empty($nim)) {
+    $sql .= " WHERE m.nim LIKE :nim";
+}
+
+$sql .= " GROUP BY m.nim, m.nama_lengkap";
+
+// Menambahkan kondisi HAVING untuk hanya menampilkan IPK >= 3.5
+$sql .= " HAVING AVG(CAST(pa.ip AS DECIMAL(4, 2))) >= 3.5";
+
+// Menyiapkan dan mengeksekusi query
+$stmt = $conn->prepare($sql);
+
+// Jika ada pencarian berdasarkan NIM
+if (!empty($nim)) {
+    $stmt->bindValue(':nim', "%$nim%", PDO::PARAM_STR);
+}
+
+$stmt->execute();
+
+// Menyimpan hasil query dalam array
+$prestasi_akademik = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -58,50 +73,19 @@ try {
         <tr>
           <th>NIM</th>
           <th>Nama</th>
-          <?php for ($i = 1; $i <= 8; $i++): ?>
-            <th>Smt <?= $i ?></th>
-          <?php endfor; ?>
+          <th>IPK</th>
+          <th>Gelar</th>
         </tr>
       </thead>
       <tbody>
-      <?php
-    if (!empty($results)) {
-        // Membuat array untuk menyimpan data per semester
-        $semester_data = [];
-        foreach ($results as $row) {
-            // Kelompokkan data berdasarkan nim dan nama
-            $nim = $row['nim'];
-            $nama_lengkap = $row['nama_lengkap'];
-            
-            // Pastikan ada entri untuk nim jika belum ada
-            if (!isset($semester_data[$nim])) {
-                $semester_data[$nim] = [
-                    'nama_lengkap' => $nama_lengkap,
-                    'semesters' => array_fill(1, 8, '-') // Inisialisasi semester 1-8 dengan '-'
-                ];
-            }
-            
-            // Isi data untuk semester terkait
-            $semester_data[$nim]['semesters'][$row['semester']] = $row['ip'];
-        }
-
-        // Tampilkan data ke tabel
-        foreach ($semester_data as $nim => $data) {
-            echo "<tr>";
-            echo "<td>" . $nim . "</td>";
-            echo "<td>" . $data['nama_lengkap'] . "</td>";
-
-            // Tampilkan kolom semester 1 hingga 8
-            foreach ($data['semesters'] as $ip) {
-                echo "<td>" . $ip . "</td>";
-            }
-
-            echo "</tr>";
-        }
-    } else {
-        echo "<tr><td colspan='10'>Tidak ada data</td></tr>"; // colspan disesuaikan dengan jumlah kolom
-    }
-    ?>
+        <?php foreach ($prestasi_akademik as $row): ?>
+        <tr>
+          <td><?= htmlspecialchars($row['nim']) ?></td>
+          <td><?= htmlspecialchars($row['nama_lengkap']) ?></td>
+          <td><?= number_format($row['ipk'], 2) ?></td>
+          <td><?= hitung_gelar($row['ipk']) ?></td>
+        </tr>
+        <?php endforeach; ?>
       </tbody>
     </table>
   </div>
