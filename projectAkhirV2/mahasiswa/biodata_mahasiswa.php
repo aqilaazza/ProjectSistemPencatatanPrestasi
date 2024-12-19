@@ -42,10 +42,12 @@ if (!$mahasiswa) {
             <input type="email" name="email" placeholder="Email" value="<?php echo htmlspecialchars($mahasiswa['email']); ?>" required />
             <select name="agama" required>
                 <option value="Islam" <?php echo $mahasiswa['agama'] == 'Islam' ? 'selected' : ''; ?>>Islam</option>
-                <option value="Kristen" <?php echo $mahasiswa['agama'] == 'Kristen' ? 'selected' : ''; ?>>Kristen</option>
+                <option value="Kristen Protestan" <?php echo $mahasiswa['agama'] == 'Kristen Protestan' ? 'selected' : ''; ?>>Kristen Protestan</option>
+                <option value="Kristen Katolik" <?php echo $mahasiswa['agama'] == 'Kristen Katolik' ? 'selected' : ''; ?>>Kristen Katolik</option>
                 <option value="Hindu" <?php echo $mahasiswa['agama'] == 'Hindu' ? 'selected' : ''; ?>>Hindu</option>
                 <option value="Buddha" <?php echo $mahasiswa['agama'] == 'Buddha' ? 'selected' : ''; ?>>Buddha</option>
                 <option value="Konghucu" <?php echo $mahasiswa['agama'] == 'Konghucu' ? 'selected' : ''; ?>>Konghucu</option>
+                <option value="Lainnya" <?php echo $mahasiswa['agama'] == 'Lainnya' ? 'selected' : ''; ?>>Lainnya</option>
             </select>
             <input type="text" name="alamat" placeholder="Alamat" value="<?php echo htmlspecialchars($mahasiswa['alamat']); ?>" required />
             <input type="text" name="no_telp" placeholder="No. Telp" value="<?php echo htmlspecialchars($mahasiswa['no_telp']); ?>" required />
