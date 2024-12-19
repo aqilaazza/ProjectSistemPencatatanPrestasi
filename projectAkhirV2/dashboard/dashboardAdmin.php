@@ -16,7 +16,7 @@
             <li><a href="../admin/biodata_admin.php">Biodata Admin</a></li>
             <li><a href="../admin/biodata_dosen.php">Biodata Dosen</a></li>
             <li><a href="../admin/biodata_mahasiswa.php">Biodata Mahasiswa</a></li>
-            <li><a href="../admin/prestasi_akademik.php">Unggah Prestasi Akademik</a></li>
+            <li><a href="../admin/ipMhs.php">Unggah IP Mahasiswa</a></li>
             <li><a href="../admin/validasi_prestasi.php">Validasi Prestasi Non-Akademik</a></li>
             <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
         </ul>
