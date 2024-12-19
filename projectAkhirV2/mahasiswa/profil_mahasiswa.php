@@ -165,10 +165,12 @@ button:active {
             <p>Agama</p>
             <select name="agama" disabled>
                 <option value="Islam" <?php echo $mahasiswa['agama'] == 'Islam' ? 'selected' : ''; ?>>Islam</option>
-                <option value="Kristen" <?php echo $mahasiswa['agama'] == 'Kristen' ? 'selected' : ''; ?>>Kristen</option>
+                <option value="Kristen Protestan" <?php echo $mahasiswa['agama'] == 'Kristen Protestan' ? 'selected' : ''; ?>>Kristen Protestan</option>
+                <option value="Kristen Katolik" <?php echo $mahasiswa['agama'] == 'Kristen Katolik' ? 'selected' : ''; ?>>Kristen Katolik</option>
                 <option value="Hindu" <?php echo $mahasiswa['agama'] == 'Hindu' ? 'selected' : ''; ?>>Hindu</option>
                 <option value="Buddha" <?php echo $mahasiswa['agama'] == 'Buddha' ? 'selected' : ''; ?>>Buddha</option>
                 <option value="Konghucu" <?php echo $mahasiswa['agama'] == 'Konghucu' ? 'selected' : ''; ?>>Konghucu</option>
+                <option value="Lainnya" <?php echo $mahasiswa['agama'] == 'Lainnya' ? 'selected' : ''; ?>>Lainnya</option>
             </select>
             <p>Alamat</p>
             <input type="text" name="alamat" placeholder="Alamat" value="<?php echo htmlspecialchars($mahasiswa['alamat']); ?>" readonly />
