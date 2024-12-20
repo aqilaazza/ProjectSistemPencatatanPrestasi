@@ -105,8 +105,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 1px;
             padding: 1px;
             margin: 1px 0;
-            width: 300px;
+            width: 390px;
             text-align : center;
+            margin-bottom: 20px;
         }
 
         .warning {
