@@ -33,11 +33,6 @@ if (!$dosen) {
         
 </head>
 <body>
-
-    <button class="toggle-sidebar" onclick="toggleSidebar()">
-        <span class="toggle-icon" id="sidebar-icon">></span>
-    </button>
-
     <div class="sidebar" id="sidebar">
         <h2>Dashboard</h2>
         <ul>
@@ -55,7 +50,7 @@ if (!$dosen) {
         </div>
 
         <div class="tabs">
-            <div class="tab" onclick="showTab('status_validasi')">Status Permintaan Validasi Prestasi Non Akademik</div>
+            Status Permintaan Validasi Prestasi Non Akademik
         </div>
 
         <div class="card" id="status_validasi" style="display: block;">
