@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
+            background-image: url('../img/bg.png');
             margin: 0;
             padding: 20px;
             display: flex;

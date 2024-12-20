@@ -14,20 +14,39 @@
       border-radius: 5px;
       cursor: pointer;
       text-decoration: none;
+      transition: background-color 0.3s ease; /* Adding transition effect */
     }
+
     .button:hover {
-      background-color: #0000FF;
+      background-color: #0056b3; /* Changing background color on hover */
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
     }
+
     table, th, td {
       border: 1px solid black;
     }
+
     th, td {
       padding: 8px;
       text-align: left;
+    }
+
+    /* Style for the Kembali button */
+    .back-button a {
+      text-decoration: none;
+      color: white;
+      background-color: #007bff; /* Set background color to blue */
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button a:hover {
+      background-color: #0056b3; /* Darker blue on hover */
     }
   </style>
 </head>
@@ -70,7 +89,7 @@
         ?>
       </tbody>
     </table>
-    <div class="login-link">
+    <div class="back-button">
       <p><a href="../dashboard/dashboardAdmin.php">Kembali</a></p>
     </div>
   </div>

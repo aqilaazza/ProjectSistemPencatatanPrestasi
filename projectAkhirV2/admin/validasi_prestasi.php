@@ -7,21 +7,31 @@
   <link rel="stylesheet" href="validasi_prestasi.css">
   <style>
     .status-button {
-      background-color: purple;
+      background-color: #007bff; /* Default color set to blue */
       color: white;
       border: none;
-      padding: 5px 10px;
+      padding: 10px 20px;
       border-radius: 5px;
       cursor: pointer;
-    }
-
-    .status-button.selected {
-      background-color: green;
-      color: white;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow effect */
     }
 
     .status-button:hover {
-      opacity: 0.8;
+      background-color: #28a745; /* Change color to green on hover */
+    }
+
+    .status-button:active {
+      transform: scale(0.95); /* Shrink effect when clicked */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Shadow effect when clicked */
+    }
+
+    /* If the button is selected (clicked) */
+    .status-button.selected {
+      background-color: #28a745; /* Green when selected */
+      color: white;
+      box-shadow: none; /* Remove shadow after selection */
     }
   </style>
 </head>
@@ -99,20 +109,20 @@ else:
   </div>
   <script>
     function handleStatus(button, status, nama_kompetisi) {
-        // Menghapus kelas terpilih dari semua tombol di baris yang sama
+        // Remove the 'selected' class from all buttons in the same row
         const row = document.getElementById('row-' + nama_kompetisi);
         const buttons = row.querySelectorAll('.status-button');
         buttons.forEach(btn => btn.classList.remove('selected'));
 
-        // Menambahkan kelas "selected" pada tombol yang dipilih
+        // Add the 'selected' class to the clicked button
         button.classList.add('selected');
 
-        // Menyiapkan data untuk dikirim ke server
+        // Prepare the data to send to the server
         const formData = new FormData();
         formData.append('nama_kompetisi', nama_kompetisi);
         formData.append('status_validasi', status === 'ya' ? 'diterima' : 'ditolak');
 
-        // Mengirimkan data menggunakan Fetch API
+        // Send the data using Fetch API
         fetch('update_status.php', {
             method: 'POST',
             body: formData

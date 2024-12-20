@@ -78,29 +78,29 @@ th {
 }
 
 .status-button {
-  background-color: #6a11cb; /* Warna dasar tombol */
-  color: #fff;
+  background-color: #007bff; /* Default color set to blue */
+  color: white;
   border: none;
-  border-radius: 5px;
   padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow tombol */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow effect */
 }
 
 .status-button:hover {
-  background-color: #5a0e9d; /* Warna saat hover */
+  background-color: #28a745; /* Change color to green on hover */
 }
 
 .status-button:active {
-  transform: scale(0.95); /* Efek mengecil */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Efek cekung */
+  transform: scale(0.95); /* Shrink effect when clicked */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Shadow effect when clicked */
 }
 
-/* Warna tombol berubah menjadi hijau saat diklik */
-.status-button.clicked {
-  background-color: #28a745; /* Hijau */
-  box-shadow: none; /* Hapus shadow saat diklik */
-  color: #fff; /* Pastikan teks tetap terlihat */
+/* If the button is selected (clicked) */
+.status-button.selected {
+  background-color: #28a745; /* Green when selected */
+  color: white;
+  box-shadow: none; /* Remove shadow after selection */
 }
