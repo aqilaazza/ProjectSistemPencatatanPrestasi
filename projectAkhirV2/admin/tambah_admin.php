@@ -100,20 +100,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-image: linear-gradient(to right, #5a0e9d, #1e5bc0);
         }
 
-        .warning-container {
-            border: 2px solid rgba(255, 0, 0, 0.5);
-            border-radius: 1px;
-            padding: 1px;
-            margin: 1px 0;
-            width: 390px;
-            text-align : center;
-            margin-bottom: 20px;
-        }
-
-        .warning {
-            color: red;
-            font-size: 14px;
-        }
 
         .login-link {
             margin-top: 20px;
@@ -132,9 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <h2>Form Tambah Biodata Admin</h2>
-        <div class="warning-container">
-            <p class="warning">Anda harus melengkapi biodata sebelum lanjut ke laman Dashboard</p>
-        </div>
         <!-- Form untuk menambah data admin -->
         <form action="" method="POST">
             <input type="text" name="nip" placeholder="NIP" required />

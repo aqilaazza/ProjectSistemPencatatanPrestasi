@@ -73,11 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-bottom: 20px;
         }
 
-        p {
-            margin-bottom: 15px;
-            color: #555;
-        }
-
         input, select {
             background-color: #eee;
             border: none;
@@ -121,7 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <h2>Form Tambah Biodata Mahasiswa</h2>
-        <p>Silakan isi formulir berikut untuk menambahkan data biodata mahasiswa baru:</p>
         <form action="tambah_mahasiswa.php" method="post">
             <input type="text" name="nim" placeholder="NIM" required>
             <input type="text" name="nama_lengkap" placeholder="Nama Lengkap" required>
