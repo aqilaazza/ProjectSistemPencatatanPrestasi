@@ -58,7 +58,7 @@
           <td><?= htmlspecialchars($row['nama_lengkap']) ?></td>
           <td><?= htmlspecialchars($row['nama_kompetisi']) ?></td>
           <td>
-            <a href="up_nonakademik.php?nama_kompetisi=<?= urlencode($row['nama_kompetisi']) ?>" class="button">Detail</a>
+            <a href="detail_nonakademik.php?nama_kompetisi=<?= urlencode($row['nama_kompetisi']) ?>" class="button">Detail</a>
           </td>
         </tr>
         <?php
