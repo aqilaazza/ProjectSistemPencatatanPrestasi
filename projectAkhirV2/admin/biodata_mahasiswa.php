@@ -35,21 +35,29 @@ try {
             background-image: url('../img/bg.png');
             background-size: cover;
             background-position: center;
+            display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 40px 10px;
+            margin: 0; /* Menghapus margin di sekitar body */
+            padding: 0; /* Menghapus padding di sekitar body */
+            box-sizing: border-box; /* Mencegah padding memengaruhi ukuran elemen */
+            min-height: 100vh; /* Memastikan halaman minimal setinggi viewport */
         }
 
         .container {
             background-color: white;
-            padding: 30px;
+            padding: 30px; /* Ruang dalam kontainer */
             border-radius: 15px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            max-width: 3000px;
-            margin: 0 auto;
+            max-width: 100%; /* Membuat kontainer menyesuaikan lebar layar */
+            width: 98%; /* Lebar 90% dari layar untuk memberi ruang */
+            margin: 20px auto; /* Tambahkan margin atas agar kontainer tidak menempel di atas */
+            min-height: 80vh; /* Tinggi minimal untuk kontainer */
+            overflow-x: auto; /* Memastikan tabel tidak melanggar batas kontainer */
         }
+
+
+
 
         h1 {
             font-size: 26px;
@@ -127,18 +135,27 @@ try {
         .navbar {
             text-align: center;
             margin-top: 20px;
+            
         }
 
         .navbar a {
             text-decoration: none;
-            padding: 10px 20px;
-            background-color: blue;
+            padding: 10px 5px; /* Atur padding agar tombol lebih besar */
+            width: 150px; /* Atur lebar tombol secara konsisten */
+            display: inline-block; /* Agar width berfungsi */
+            text-align: center; /* Teks berada di tengah */
+            background-color: #2A6BF8;
             color: white;
-            border-radius: 5px;
-        }
+            border-radius: 8px; /* Tambahkan sedikit pembulatan */
+            font-size: 16px; /* Ukuran teks */
+            font-weight: 500; /* Ketebalan teks */
+            transition: all 0.3s ease; /* Animasi untuk hover */
+            }
 
         .navbar a:hover {
-            background-color: #ddd;
+            background-color: #0056d2; /* Warna saat hover */
+            color: #fff; /* Pastikan teks tetap terlihat */
+            transform: scale(1.05); /* Sedikit memperbesar tombol saat hover */
         }
 
         .error, .success-message {
@@ -247,13 +264,11 @@ try {
             </tbody>
         </table>
 
-        <!-- Tombol kembali -->
         <div class="navbar">
-            <a href="../admin/tambah_mahasiswa.php">Tambah Data</a>
-        </div>
-        <div class="navbar">
+            <a href="tambah_mahasiswa.php">Tambah Data</a>
             <a href="../dashboard/dashboardAdmin.php">Kembali</a>
         </div>
+
     </div>
 
 </body>

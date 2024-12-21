@@ -129,14 +129,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         button {
-            background-color: #2A6BF8;
+            background-image: linear-gradient(to right, #6a11cb, #2575fc);
             color: white;
             cursor: pointer;
             font-weight: bold;
         }
 
         button:hover {
-            background-color: #1a4db4;
+            background-image: linear-gradient(to right, #5a0e9d, #1e5bc0);
+
         }
 
         .error {
@@ -221,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <div style="text-align: center; margin-top: 20px;">
-            <a href="biodata_mahasiswa.php" style="text-decoration: none; color: #2A6BF8;">&larr; Batal</a>
+            <a href="biodata_mahasiswa.php" style="text-decoration: none; color: #FF416C; text-decoration: underline;"> Kembali</a>
         </div>
     </div>
 </body>

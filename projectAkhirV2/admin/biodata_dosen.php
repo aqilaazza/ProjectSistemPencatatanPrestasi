@@ -126,14 +126,22 @@ try {
 
         .navbar a {
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 10px 5px; /* Atur padding agar tombol lebih besar */
+            width: 150px; /* Atur lebar tombol secara konsisten */
+            display: inline-block; /* Agar width berfungsi */
+            text-align: center; /* Teks berada di tengah */
             background-color: #2A6BF8;
             color: white;
-            border-radius: 5px;
-        }
+            border-radius: 8px; /* Tambahkan sedikit pembulatan */
+            font-size: 16px; /* Ukuran teks */
+            font-weight: 500; /* Ketebalan teks */
+            transition: all 0.3s ease; /* Animasi untuk hover */
+            }
 
         .navbar a:hover {
-            background-color: #ddd;
+            background-color: #0056d2; /* Warna saat hover */
+            color: #fff; /* Pastikan teks tetap terlihat */
+            transform: scale(1.05); /* Sedikit memperbesar tombol saat hover */
         }
 
         .message-container {

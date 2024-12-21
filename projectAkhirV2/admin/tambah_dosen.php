@@ -119,6 +119,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #ddd;
             color: #333;
         }
+        .login-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .login-link a {
+            color: #FF416C;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -158,9 +171,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="btn">Simpan</button>
     </form>
 
-    <div class="navbar">
-        <a href="biodata_dosen.php">Batal</a>
-    </div>
+    <div class="login-link">
+            <p><a href="biodata_dosen.php">Batal</a></p>
+        </div>
 </div>
 
 </body>

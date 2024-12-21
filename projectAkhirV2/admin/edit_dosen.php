@@ -49,14 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $agama = $_POST['agama'];
 
     try {
-        $result = $dosenObj->updateDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama);
+        // Memperbarui data dosen
+        $dosenObj->updateDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama);
 
-        if ($result) { 
-            header("Location: biodata_dosen.php?message=updated");
-            exit();
-        } else {
-            $error = "Gagal memperbarui data dosen.";
-        }
+        // Set pesan ke dalam session
+        $_SESSION['success_message'] = "Data dosen berhasil diperbarui!";
+
+        // Redirect ke halaman biodata_dosen.php
+        header("Location: biodata_dosen.php");
+        exit();
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
@@ -73,25 +74,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        body {
+         body {
             font-family: 'Poppins', sans-serif;
             background-image: url('../img/bg.png');
             background-size: cover;
             background-position: center;
-            display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding: 40px 10px;
         }
 
         .container {
+            width: 90%;
+            max-width: 550px;
+            margin: 0 auto;
             background-color: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -127,10 +129,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: white;
             font-size: 16px;
             cursor: pointer;
+            background-image: linear-gradient(to right, #6a11cb, #2575fc);
         }
 
         .btn:hover {
-            background-color: #1E4CB5;
+            background-image: linear-gradient(to right, #5a0e9d, #1e5bc0);
+
         }
 
         .navbar {
@@ -149,6 +153,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .navbar a:hover {
             background-color: #ddd;
             color: #333;
+        }
+
+        .login-link {
+            margin-top: 20px;
+            text-align:center;
+        }
+
+        .login-link a {
+            color: #FF416C;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -187,8 +205,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="btn">Simpan Perubahan</button>
     </form>
 
-    <div class="navbar">
-        <a href="biodata_dosen.php">Batal</a>
+   
+    <div class="login-link">
+            <p><a href="biodata_dosen.php">Kembali</a></p>
     </div>
 </div>
 

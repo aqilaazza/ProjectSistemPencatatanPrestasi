@@ -178,22 +178,30 @@ try {
             text-align: center;
             border-radius: 5px;
         }
+        .navbar {
+            text-align: center;
+            margin-top: 20px;
+            gap: 20px;
+        }
 
-        @media (max-width: 768px) {
-            table {
-                font-size: 14px;
+        .navbar a {
+            text-decoration: none;
+            padding: 10px 5px; /* Atur padding agar tombol lebih besar */
+            width: 150px; /* Atur lebar tombol secara konsisten */
+            display: inline-block; /* Agar width berfungsi */
+            text-align: center; /* Teks berada di tengah */
+            background-color: #2A6BF8;
+            color: white;
+            border-radius: 8px; /* Tambahkan sedikit pembulatan */
+            font-size: 16px; /* Ukuran teks */
+            font-weight: 500; /* Ketebalan teks */
+            transition: all 0.3s ease; /* Animasi untuk hover */
             }
 
-            button {
-                width: 100%;
-                padding: 12px;
-                font-size: 14px;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
+        .navbar a:hover {
+            background-color: #0056d2; /* Warna saat hover */
+            color: #fff; /* Pastikan teks tetap terlihat */
+            transform: scale(1.05); /* Sedikit memperbesar tombol saat hover */
         }
     </style>
 </head>
@@ -253,15 +261,11 @@ try {
                         ?>
             </tbody>
         </table>
-
-        <div class="button-container">
-            <a href="tambah_admin.php" class="btn btn-primary">
-                <i class="fa fa-plus-circle"></i> Tambah Data
-            </a>
-            <a href="../dashboard/dashboardAdmin.php" class="btn btn-secondary">
-                <i class="fa fa-arrow-left"></i> Kembali
-            </a>
+        <div class="navbar">
+            <a href="tambah_admin.php">Tambah Data</a>
+            <a href="../dashboard/dashboardAdmin.php">Kembali</a>
         </div>
+
     </div>
 </body>
 </html>

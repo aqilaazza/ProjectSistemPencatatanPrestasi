@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $admin->update($nip, $updateData);
 
         if ($result) {
-            header("Location: biodata_admin.php?message=updated");
+            header("Location: biodata_admin.php?status=success");
             exit();
         } else {
             $error = "Gagal memperbarui data admin.";
@@ -56,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (PDOException $e) {
         $error = "Kesalahan: " . $e->getMessage();
     }
-    
 }
 ?>
 
@@ -125,10 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: white;
             cursor: pointer;
             font-weight: bold;
+            background-image: linear-gradient(to right, #6a11cb, #2575fc);
         }
 
         button:hover {
-            background-color: #1a4db4;
+            background-image: linear-gradient(to right, #5a0e9d, #1e5bc0);
         }
 
         .error {
@@ -144,6 +144,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
             margin-bottom: 20px;
             border-radius: 5px;
+        }
+        .login-link {
+            margin-top: 20px;
+            text-align:center;
+        }
+
+        .login-link a {
+            color: #FF416C;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -172,8 +185,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">Simpan Perubahan</button>
         </form>
 
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="biodata_admin.php" style="text-decoration: none; color: #2A6BF8;">&larr; Batal</a>
+        <div class="login-link">
+            <p><a href="biodata_admin.php">Kembali</a></p>
         </div>
     </div>
 </body>
