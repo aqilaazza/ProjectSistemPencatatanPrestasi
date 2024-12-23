@@ -7,11 +7,7 @@ try {
     $conn = $db->connect();
 
     // Jalankan query untuk statistik
-    $query = "SELECT YEAR(tgl_penyelenggaraan) AS tahun, COUNT(*) AS jumlah 
-              FROM prestasi_nonakademik
-              WHERE status_validasi = 'diterima'
-              GROUP BY YEAR(tgl_penyelenggaraan)
-              ORDER BY tahun ASC";
+    $query = "SELECT * FROM statistik_non_akademik";
     $stmt = $conn->prepare($query);
     $stmt->execute();
 
