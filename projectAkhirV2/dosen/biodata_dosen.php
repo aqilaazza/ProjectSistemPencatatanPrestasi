@@ -149,11 +149,13 @@ if (!$dosen) {
                 <select name="agama" required>
                     <option value="" disabled hidden <?= empty($dosen['agama']) ? 'selected' : '' ?>>Agama</option>
                     <option value="Islam" <?= ($dosen['agama'] ?? '') === 'Islam' ? 'selected' : '' ?>>Islam</option>
-                    <option value="Kristen" <?= ($dosen['agama'] ?? '') === 'Kristen' ? 'selected' : '' ?>>Kristen</option>
+                    <option value="Kristen Katolik" <?= ($dosen['agama'] ?? '') === 'Kristen Katolik' ? 'selected' : '' ?>>Kristen Katolik</option>
+                    <option value="Kristen Protestan" <?= ($dosen['agama'] ?? '') === 'Kristen Protestan' ? 'selected' : '' ?>>Kristen Protestan</option>
                     <option value="Hindu" <?= ($dosen['agama'] ?? '') === 'Hindu' ? 'selected' : '' ?>>Hindu</option>
                     <option value="Buddha" <?= ($dosen['agama'] ?? '') === 'Buddha' ? 'selected' : '' ?>>Buddha</option>
                     <option value="Konghucu" <?= ($dosen['agama'] ?? '') === 'Konghucu' ? 'selected' : '' ?>>Konghucu</option>
                 </select>
+
                 <button type="submit">Simpan</button>
             </form>
 
