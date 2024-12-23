@@ -60,9 +60,7 @@ $db = new connection();
 $conn = $db->connect();
 
 $nim = isset($_GET['nim']) ? $_GET['nim'] : '';
-$query = "SELECT pn.nama_kompetisi, m.nim, pn.status_validasi 
-          FROM prestasi_nonakademik pn 
-          INNER JOIN mahasiswa m ON pn.nim = m.nim";
+$query = "SELECT * FROM validasi_prestasi_view";
 
 if (!empty($nim)) {
     $query .= " WHERE pn.nim LIKE :nim";

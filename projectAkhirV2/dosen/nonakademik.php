@@ -41,11 +41,7 @@
         $conn = $db->connect();
 
         // Query untuk mengambil data dengan status_validasi = 'diterima'
-        $query = "SELECT p.nim, m.nama_lengkap, p.nama_kompetisi
-        FROM prestasi_nonakademik p
-        INNER JOIN mahasiswa m
-        ON m.nim = p.nim
-        WHERE status_validasi = 'diterima'";
+        $query = "SELECT * FROM nonakademik_view";
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

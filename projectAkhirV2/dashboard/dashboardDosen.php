@@ -24,11 +24,7 @@ if (!$dosen) {
 }
 
 // Query untuk statistik prestasi non-akademik berdasarkan tahun
-$queryStatistik = "SELECT YEAR(tgl_penyelenggaraan) AS tahun, COUNT(*) AS jumlah 
-                   FROM prestasi_nonakademik
-                   WHERE status_validasi = 'diterima'
-                   GROUP BY YEAR(tgl_penyelenggaraan)
-                   ORDER BY tahun ASC";
+$queryStatistik = "SELECT * FROM statistik_non_akademik";
 $stmtStatistik = $conn->prepare($queryStatistik);
 $stmtStatistik->execute();
 $statistik = $stmtStatistik->fetchAll(PDO::FETCH_ASSOC);
