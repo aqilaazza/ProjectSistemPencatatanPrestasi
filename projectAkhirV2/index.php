@@ -1,3 +1,30 @@
+<?php
+require_once 'config/connection.php';
+
+try {
+    // Buat koneksi ke database
+    $db = new connection();
+    $conn = $db->connect();
+
+    // Jalankan query untuk statistik
+    $query = "SELECT YEAR(tgl_penyelenggaraan) AS tahun, COUNT(*) AS jumlah 
+              FROM prestasi_nonakademik
+              WHERE status_validasi = 'diterima'
+              GROUP BY YEAR(tgl_penyelenggaraan)
+              ORDER BY tahun ASC";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    // Ambil hasil query
+    $statistik = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    
+} catch (PDOException $e) {
+    // Tampilkan pesan kesalahan jika terjadi masalah dengan query
+    echo "console.error('Error fetching statistics: " . $e->getMessage() . "');";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +34,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="cssLanding.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Add Chart.js library -->
+    <style>
+        /* Mengatur ukuran canvas agar grafik lebih kecil */
+        #statistikChart {
+            width: 80% !important;
+            height: 300px !important; /* Anda bisa menyesuaikan tinggi ini */
+            margin: auto;
+        }
+        /* Menyesuaikan tampilan statistik */
+        .statistics {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -39,67 +79,66 @@ Prestasi juga bisa membawa dampak positif, bukan cuma buat diri sendiri, tapi ju
     
     <!-- Statistics Section -->
     <section class="statistics-section">
-        <h2>Statistik Prestasi Non-Akademik</h2>
-        <div class="statistics">
-            <div class="stat-item">
-                <h3>Jumlah Prestasi Non-Akademik</h3>
-                <p>350</p>
-            </div>
-            <div class="stat-item">
-                <h3>Prestasi Non-Akademik Terverifikasi</h3>
-                <p>275</p>
-            </div>
-            <div class="stat-item">
-                <h3>Mahasiswa Berprestasi</h3>
-                <p>150</p>
-            </div>
-        </div>
-        <!-- New Section for Chart -->
-        <div class="chart-container">
-            <canvas id="studentChart"></canvas>
-        </div>
-    </section>
+    <h2>Statistik Prestasi Non-Akademik</h2>
+    <canvas id="statistikChart" style="width: 100%; height: 400px;"></canvas>
+</section>
+<script>
+// Data statistik dari PHP
+const statistikData = <?php echo json_encode($statistik); ?>;
+
+// Memproses data untuk grafik
+const labels = statistikData.map(item => item.tahun);
+const data = statistikData.map(item => item.jumlah);
+
+// Membuat grafik menggunakan Chart.js
+const ctx = document.getElementById('statistikChart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Jumlah Prestasi Non-Akademik',
+            data: data,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Jumlah Prestasi'
+                },
+                ticks: {
+                    maxTicksLimit: 5 // Membatasi jumlah tanda pada sumbu Y
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Tahun'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top'
+            }
+        },
+        responsive: true, // Menyesuaikan ukuran grafik dengan ukuran layar
+        maintainAspectRatio: false // Membiarkan grafik menyesuaikan lebar dan tinggi secara bebas
+    }
+});
+</script>
 
     <a href="https://wa.me/62895366420366" target="_blank" class="whatsapp-button"></a>
 </div>
 <footer>
     <p>&copy; 2024 Made with love by Group 2. All rights reserved.</p>
 </footer>
-<script>
-        // Chart.js setup for Bar Chart
-        var ctx = document.getElementById('studentChart').getContext('2d');
-        var studentChart = new Chart(ctx, {
-            type: 'bar', // Bar chart
-            data: {
-                labels: ['2020', '2021', '2022', '2023'], // Tahun
-                datasets: [{
-                    label: 'Jurusan TI', 
-                    data: [150, 180, 210, 230], // Data mahasiswa TI tiap tahun
-                    backgroundColor: '#6a11cb', // Warna ungu untuk TI
-                    borderColor: '#6a11cb', // Warna border ungu
-                    borderWidth: 1
-                }, {
-                    label: 'Jurusan SIB',
-                    data: [100, 120, 140, 160], // Data mahasiswa SIB tiap tahun
-                    backgroundColor: '#00b0ff', // Warna biru untuk SIB
-                    borderColor: '#00b0ff', // Warna border biru
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                }
-            }
-        });
-</script>
 </body>
 </html>
