@@ -115,37 +115,27 @@ if (!$dosen) {
         .login-link a:hover {
             text-decoration: underline;
         }
-
-        .warning-container {
-            border: 2px solid rgba(255, 0, 0, 0.5); /* Border merah transparan */
-            border-radius: 1px;
-            padding: 0px;
-            margin-bottom: 20px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .warning {
-            color: red;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Biodata Dosen</h2>
-        <div class="warning-container">
-            <p class="warning">Anda harus melengkapi biodata sebelum lanjut ke laman Dashboard</p>
-        </div>
         <form action="edit_biodataDosen.php" method="POST">
+                <label for="nama">Nama Lengkap</label>
                 <input type="text" name="nama_lengkap" placeholder="Nama Lengkap" value="<?= htmlspecialchars($dosen['nama'] ?? '') ?>" required />
+                <label for="email">E-Mail</label>
                 <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($dosen['email'] ?? '') ?>" required />
+                <label for="no_telp">No Telephone</label>
                 <input type="tel" name="no_telp" placeholder="No. Telp" value="<?= htmlspecialchars($dosen['no_telp'] ?? '') ?>" required />
+                <label for="jabatan">Jabatan</label>
                 <input type="text" name="jabatan" placeholder="Jabatan" value="<?= htmlspecialchars($dosen['jabatan'] ?? '') ?>" required />
+                <label for="alamat">Alamat</label>
                 <input type="text" name="alamat" placeholder="Alamat" value="<?= htmlspecialchars($dosen['alamat'] ?? '') ?>" required />
                 <label for="tglLahir">Tgl Lahir</label>
                 <input type="date" id="tglLahir" name="tgl_lahir" value="<?= htmlspecialchars($dosen['tgl_lahir'] ?? '') ?>" required />
+                <label for="kota_kelahiran">Kota Kelahiran</label>
                 <input type="text" name="kota_kelahiran" placeholder="Kota Kelahiran" value="<?= htmlspecialchars($dosen['kota_kelahiran'] ?? '') ?>" required />
+                <label for="agama">Agama</label>
                 <select name="agama" required>
                     <option value="" disabled hidden <?= empty($dosen['agama']) ? 'selected' : '' ?>>Agama</option>
                     <option value="Islam" <?= ($dosen['agama'] ?? '') === 'Islam' ? 'selected' : '' ?>>Islam</option>
