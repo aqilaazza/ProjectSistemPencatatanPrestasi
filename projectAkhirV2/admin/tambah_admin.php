@@ -7,9 +7,10 @@ include('../models/admin.php');
 $conn = new Connection();
 $pdo = $conn->connect();
 
-$admin = new Admin($pdo); // Buat objek Admin untuk mengakses metode models
+$admin = new Admin($pdo);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
+    $data1 = [
         'nip' => $_POST['nip'],
         'nama' => $_POST['nama'],
         'email' => $_POST['email'],
@@ -17,16 +18,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'alamat' => $_POST['alamat']
     ];
 
-    if ($admin->nipExists($data['nip'])) {
-        echo "<p style='color: red; text-align: center;'>NIP sudah terdaftar. Silakan gunakan NIP lain.</p>";
-    } else {
-        if ($admin->create($data)) {
-            header("Location: biodata_admin.php?message=added"); // Pengalihan dengan pesan notifikasi
-            exit();
-        } else {
-            echo "<p style='color: red; text-align: center;'>Gagal menyimpan data. Silakan coba lagi.</p>";
-        }
-    }
+    $data2 = [
+        'nip2' => $_POST['nip2'],  // Menggunakan nidn dari form untuk login_dosen
+        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+    ];
+
+    // Menambahkan data admin
+    $admin->create($data1);
+
+    // Menambahkan data untuk input password
+    $admin->addPw($data2);
+
+    // Redirect ke halaman biodata dosen setelah berhasil
+    header("Location: biodata_admin.php"); 
+    exit();
 }
 ?>
 
@@ -122,9 +127,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="" method="POST">
             <input type="text" name="nip" placeholder="NIP" required />
             <input type="text" name="nama" placeholder="Nama" required />
-            <input type="email" name="email" placeholder="Email" required />
-            <input type="tel" name="no_telp" placeholder="Nomor Telepon" required />
-            <input type="text" name="alamat" placeholder="Alamat" required />
+            <input type="email" name="email" placeholder="Email"/>
+            <input type="tel" name="no_telp" placeholder="Nomor Telepon"/>
+            <input type="text" name="alamat" placeholder="Alamat" />
+            <h3>Beri Akses Login</h3>
+            <input type="text" name="nip2" placeholder="NIP Untuk Username" required>
+            <input type="text" name="password" placeholder="Password Untuk Login"required>
             <button type="submit">Simpan</button>
         </form>
         <div class="login-link">

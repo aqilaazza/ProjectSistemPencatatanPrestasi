@@ -19,7 +19,7 @@ class Admin extends User {
     }
 
     // Menambahkan data admin
-    public function create($data) {
+    public function create($data1) {
         $query = "INSERT INTO " . $this->table . " (nip, nama, email, no_telp, alamat) 
                   VALUES (:nip, :nama, :email, :no_telp, :alamat)";
         
@@ -27,13 +27,26 @@ class Admin extends User {
         $stmt = $this->conn->prepare($query);
 
         // Bind parameter dengan data yang diterima dari form
-        $stmt->bindParam(':nip', $data['nip']);
-        $stmt->bindParam(':nama', $data['nama']);
-        $stmt->bindParam(':email', $data['email']);
-        $stmt->bindParam(':no_telp', $data['no_telp']);
-        $stmt->bindParam(':alamat', $data['alamat']);
+        $stmt->bindParam(':nip', $data1['nip']);
+        $stmt->bindParam(':nama', $data1['nama']);
+        $stmt->bindParam(':email', $data1['email']);
+        $stmt->bindParam(':no_telp', $data1['no_telp']);
+        $stmt->bindParam(':alamat', $data1['alamat']);
 
         // Eksekusi query dan kembalikan hasilnya
+        return $stmt->execute();
+    }
+
+    //Fungsi Untuk Input Password & Username
+    public function addPw($data2) {
+        // Query untuk menambahkan data login dosen
+        $query2 = "INSERT INTO login_admin (nip, password) VALUES (:nip2, :password)";
+        $stmt = $this->conn->prepare($query2);
+    
+        // Bind parameter untuk login dosen
+        $stmt->bindParam(':nip2', $data2['nip2']);
+        $stmt->bindParam(':password', $data2['password']);
+    
         return $stmt->execute();
     }
 
