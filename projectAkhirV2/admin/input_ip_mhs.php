@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="container">
-        <h1>Ubah IP Mahasiswa</h1>
+        <h1>Input IP Mahasiswa</h1>
         <form action="" method="post">
             <?php
             // Dapatkan NIM dari parameter GET
