@@ -6,8 +6,10 @@ include('../models/mahasiswa.php');
 $database = new connection();
 $pdo = $database->connect();
 
+$mahasiswa = new mahasiswa($pdo);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $data = [
+    $data1 = [
         'nim' => $_POST['nim'],
         'nama_lengkap' => $_POST['nama_lengkap'],
         'email' => $_POST['email'],
@@ -24,12 +26,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'id_prodi' => $_POST['id_prodi'],
     ];
 
-    $mahasiswa = new mahasiswa($pdo);
-    if ($mahasiswa->create($data)) {
-        header("Location: biodata_mahasiswa.php?message=added");
-    } else {
-        echo "<script>alert('Gagal menambahkan data.');</script>";
-    }
+    $data2 = [
+        'nim2' => $_POST['nim2'],
+        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+    ];
+
+
+    // Menambahkan data mahasiswa ke tabel mahasiswa
+    $mahasiswa->create($data1);
+
+    // Menambahkan data login ke tabel login_mahasiswa
+    $mahasiswa->create2($data2);
+
+    // Redirect ke halaman lain setelah berhasil
+    header("Location: biodata_mahasiswa.php");
+    exit();
 }
 ?>
 
@@ -119,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="tambah_mahasiswa.php" method="post">
             <input type="text" name="nim" placeholder="NIM" required>
             <input type="text" name="nama_lengkap" placeholder="Nama Lengkap" required>
-            <input type="email" name="email" placeholder="Email" required>
+            <input type="email" name="email" placeholder="Email">
         <select id="agama" name="agama" required>
             <option value="">Pilih Agama</option>
             <option value="Islam">Islam</option>
@@ -130,24 +141,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <option value="Konghucu">Konghucu</option>
             <option value="Lainnya">Lainnya</option>
         </select>
-            <input type="text" name="nama_ortu" placeholder="Nama Orang Tua" required>
-            <input type="text" name="alamat" placeholder="Alamat" required>
-            <input type="text" name="no_telp" placeholder="Nomor Telepon" required>
-            <input type="text" name="no_telp_wali" placeholder="Nomor Telepon Wali" required>
-            <input type="text" name="no_telp_ortu" placeholder="Nomor Telepon Orang Tua" required>
+            <input type="text" name="nama_ortu" placeholder="Nama Orang Tua">
+            <input type="text" name="alamat" placeholder="Alamat">
+            <input type="text" name="no_telp" placeholder="Nomor Telepon">
+            <input type="text" name="no_telp_wali" placeholder="Nomor Telepon Wali">
+            <input type="text" name="no_telp_ortu" placeholder="Nomor Telepon Orang Tua">
             <select id="jenis_kelamin" name="jenis_kelamin" required>
                 <option value="">Pilih Jenis Kelamin</option>
                 <option value="L">Laki-laki</option>
                 <option value="P">Perempuan</option>
             </select>
-            <input type="text" name="kota_kelahiran" placeholder="Kota Kelahiran" required>
-            <input type="date" id="tgl_lahir" name="tgl_lahir" required>
+            <input type="text" name="kota_kelahiran" placeholder="Kota Kelahiran">
+            <input type="date" id="tgl_lahir" name="tgl_lahir">
             <input type="text" name="tahun_masuk" placeholder="Tahun Masuk" required>
             <select id="id_prodi" name="id_prodi" required>
                 <option value="">Pilih Program Studi</option>
                 <option value="41">D4-Sistem Informasi Bisnis</option>
                 <option value="42">D4-Teknik Informatika</option>
             </select>
+            <h3>Beri Akses Login</h3>
+            <input type="text" name="nim2" placeholder="Nim Untuk Username" required>
+            <input type="text" name="password" placeholder="Password Untuk Login"required>
             <button type="submit">Simpan</button>
         </form>
         <div class="login-link">
