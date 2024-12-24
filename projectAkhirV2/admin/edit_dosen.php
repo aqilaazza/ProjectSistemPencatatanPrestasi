@@ -195,11 +195,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="agama">Agama</label>
         <select id="agama" name="agama" required>
             <option value="Islam" <?= $dosen['agama'] === 'Islam' ? 'selected' : '' ?>>Islam</option>
-            <option value="Kristen" <?= $dosen['agama'] === 'Kristen' ? 'selected' : '' ?>>Kristen</option>
-            <option value="Katolik" <?= $dosen['agama'] === 'Katolik' ? 'selected' : '' ?>>Katolik</option>
+            <option value="Kristen Katolik" <?= $dosen['agama'] === 'Kristen Katolik' ? 'selected' : '' ?>>Kristen Katolik</option>
+            <option value="Kristen Protestan" <?= $dosen['agama'] === 'Kristen Protestan' ? 'selected' : '' ?>>Kristen Protestan</option>
             <option value="Hindu" <?= $dosen['agama'] === 'Hindu' ? 'selected' : '' ?>>Hindu</option>
             <option value="Buddha" <?= $dosen['agama'] === 'Buddha' ? 'selected' : '' ?>>Buddha</option>
             <option value="Konghucu" <?= $dosen['agama'] === 'Konghucu' ? 'selected' : '' ?>>Konghucu</option>
+            <option value="Lainnya" <?= $dosen['agama'] === 'Lainnya' ? 'selected' : '' ?>>Lainnya</option>
         </select>
 
         <button type="submit" class="btn">Simpan Perubahan</button>
