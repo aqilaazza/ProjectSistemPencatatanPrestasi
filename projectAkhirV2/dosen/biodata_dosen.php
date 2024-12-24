@@ -42,7 +42,7 @@ if (!$dosen) {
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-image: url('img/bg.png'); /* Ganti dengan path gambar Anda */
+            background-image: url('../img/bg.png'); /* Ganti dengan path gambar Anda */
             background-size: cover;
             background-position: center;
             background-attachment: fixed; /* Menjaga background tetap saat digulir */
