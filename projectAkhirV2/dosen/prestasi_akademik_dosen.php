@@ -88,6 +88,9 @@ $prestasi_akademik = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
       </tbody>
     </table>
+    <div class="navbar">
+            <a href="../dashboard/dashboardDosen.php">Kembali</a>
+        </div>
   </div>
 </body>
 </html>

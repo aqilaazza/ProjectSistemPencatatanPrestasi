@@ -18,11 +18,32 @@
     .button:hover {
       background-color: #0000FF;
     }
+    .search-container {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .search-container input {
+      padding: 5px;
+      width: 80%;
+      margin-right: 5px;
+    }
+    .search-container button {
+      padding: 5px 10px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Prestasi Non Akademik Mahasiwa</h2>
+    <h2>Prestasi Non Akademik Mahasiswa</h2>
+
+    <!-- Form pencarian berdasarkan NIM -->
+    <div class="search-container">
+      <form method="GET" action="">
+        <input type="text" name="nim" placeholder="Cari berdasarkan NIM" value="<?= isset($_GET['nim']) ? htmlspecialchars($_GET['nim']) : '' ?>">
+        <button type="submit" class="button">Cari</button>
+      </form>
+    </div>
+
     <table>
       <thead>
         <tr>
@@ -40,9 +61,21 @@
         $db = new connection();
         $conn = $db->connect();
 
-        // Query untuk mengambil data dengan status_validasi = 'diterima'
+        // Mengambil parameter NIM dari URL
+        $nim = isset($_GET['nim']) ? $_GET['nim'] : '';
+
+        // Query untuk mengambil data dengan status_validasi = 'diterima' dan pencarian berdasarkan NIM
         $query = "SELECT * FROM nonakademik_view";
+        if (!empty($nim)) {
+            $query .= " WHERE nim LIKE :nim";
+        }
         $stmt = $conn->prepare($query);
+
+        // Bind parameter NIM jika ada
+        if (!empty($nim)) {
+            $stmt->bindValue(':nim', "%$nim%", PDO::PARAM_STR);
+        }
+
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -62,11 +95,12 @@
         } else {
         ?>
         <tr>
-          <td colspan="3" style="text-align: center;">Data tidak ditemukan.</td>
+          <td colspan="4" style="text-align: center;">Data tidak ditemukan.</td>
         </tr>
         <?php } ?>
       </tbody>
     </table>
+
     <div class="login-link">
       <p><a href="../dashboard/dashboardDosen.php">Kembali</a></p>
     </div>
