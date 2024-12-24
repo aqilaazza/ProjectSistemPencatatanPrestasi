@@ -8,28 +8,36 @@ include('../models/dosen.php');
 $db = new connection();
 $pdo = $db->connect();
 
-// Membuat instance dari kelas dosen
-$dosenObj = new dosen($pdo);
+$dosen = new Dosen($pdo);
 
 // Proses ketika form disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nidn = $_POST['nidn'];
-    $nama = $_POST['nama'];
-    $email = $_POST['email'];
-    $no_telp = $_POST['no_telp'];
-    $jabatan = $_POST['jabatan'];
-    $alamat = $_POST['alamat'];
-    $kota_kelahiran = $_POST['kota_kelahiran'];
-    $tgl_lahir = $_POST['tgl_lahir'];
-    $agama = $_POST['agama'];
+    $data1 = [
+        'nidn' => $_POST['nidn'],
+        'nama' => $_POST['nama'],
+        'email' => $_POST['email'],
+        'no_telp' => $_POST['no_telp'],
+        'jabatan' => $_POST['jabatan'],
+        'alamat' => $_POST['alamat'],
+        'kota_kelahiran' => $_POST['kota_kelahiran'],
+        'tgl_lahir' => $_POST['tgl_lahir'],
+        'agama' => $_POST['agama'],
+    ];
 
-    // Pastikan mengirimkan 9 parameter
-    if ($dosenObj->addDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama)) {
-        header("Location: biodata_dosen.php?message=added");
-        exit();
-    } else {
-        echo "<p style='color: red; text-align: center;'>Gagal menyimpan data. Silakan coba lagi.</p>";
-    }
+    $data2 = [
+        'nidn2' => $_POST['nidn'],  // Menggunakan nidn dari form untuk login_dosen
+        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+    ];
+
+    // Menambahkan data dosen
+    $dosen->addDosen($data1);
+
+    // Menambahkan data login dosen
+    $dosen->addPw($data2);
+
+    // Redirect ke halaman biodata dosen setelah berhasil
+    header("Location: biodata_dosen.php"); 
+    exit();
 }
 ?>
 
@@ -144,17 +152,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="nama">Nama</label>
         <input type="text" id="nama" name="nama" required>
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email">
         <label for="no_telp">No. Telepon</label>
-        <input type="text" id="no_telp" name="no_telp" required>
+        <input type="text" id="no_telp" name="no_telp">
         <label for="jabatan">Jabatan</label>
-        <input type="text" id="jabatan" name="jabatan" required>
+        <input type="text" id="jabatan" name="jabatan">
         <label for="alamat">Alamat</label>
-        <input type="text" id="alamat" name="alamat" required>
+        <input type="text" id="alamat" name="alamat">
         <label for="kota_kelahiran">Kota Kelahiran</label>
-        <input type="text" id="kota_kelahiran" name="kota_kelahiran" required>
+        <input type="text" id="kota_kelahiran" name="kota_kelahiran">
         <label for="tgl_lahir">Tanggal Lahir</label>
-        <input type="date" id="tgl_lahir" name="tgl_lahir" required>
+        <input type="date" id="tgl_lahir" name="tgl_lahir">
         <label for="agama">Agama</label>
         <select id="agama" name="agama" required>
             <option value="">Pilih Agama</option>
@@ -166,15 +174,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="Konghucu">Konghucu</option>
             <option value="Lainnya">Lainnya</option>
         </select>
-
-
+        <h3>Beri Akses Login</h3>
+        <input type="text" name="nidn2" placeholder="NIDN Untuk Username" required>
+        <input type="text" name="password" placeholder="Password Untuk Login"required>
         <button type="submit" class="btn">Simpan</button>
     </form>
 
     <div class="login-link">
-            <p><a href="biodata_dosen.php">Batal</a></p>
-        </div>
+        <p><a href="biodata_dosen.php">Batal</a></p>
+    </div>
 </div>
-
 </body>
 </html>

@@ -9,27 +9,40 @@ class dosen extends user {
     }
 
     // Fungsi untuk menambahkan data dosen
-    public function addDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama) {
+    public function addDosen($data1) {
+        // Query untuk menambahkan data dosen
         $query = "INSERT INTO " . $this->table . " 
                   (nidn, nama, email, no_telp, jabatan, alamat, kota_kelahiran, tgl_lahir, agama) 
                   VALUES 
                   (:nidn, :nama, :email, :no_telp, :jabatan, :alamat, :kota_kelahiran, :tgl_lahir, :agama)";
         $stmt = $this->conn->prepare($query);
-
-        // Bind parameter
-        $stmt->bindParam(':nidn', $nidn);
-        $stmt->bindParam(':nama', $nama);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':no_telp', $no_telp);
-        $stmt->bindParam(':jabatan', $jabatan);
-        $stmt->bindParam(':alamat', $alamat);
-        $stmt->bindParam(':kota_kelahiran', $kota_kelahiran);
-        $stmt->bindParam(':tgl_lahir', $tgl_lahir);
-        $stmt->bindParam(':agama', $agama);
-
+    
+        // Bind parameter berdasarkan data yang diterima
+        $stmt->bindParam(':nidn', $data1['nidn']);
+        $stmt->bindParam(':nama', $data1['nama']);
+        $stmt->bindParam(':email', $data1['email']);
+        $stmt->bindParam(':no_telp', $data1['no_telp']);
+        $stmt->bindParam(':jabatan', $data1['jabatan']);
+        $stmt->bindParam(':alamat', $data1['alamat']);
+        $stmt->bindParam(':kota_kelahiran', $data1['kota_kelahiran']);
+        $stmt->bindParam(':tgl_lahir', $data1['tgl_lahir']);
+        $stmt->bindParam(':agama', $data1['agama']);
+    
         // Eksekusi query
         return $stmt->execute();
     }
+    
+    public function addPw($data2) {
+        // Query untuk menambahkan data login dosen
+        $query2 = "INSERT INTO login_dosen (nidn, password) VALUES (:nidn2, :password)";
+        $stmt = $this->conn->prepare($query2);
+    
+        // Bind parameter untuk login dosen
+        $stmt->bindParam(':nidn2', $data2['nidn2']);
+        $stmt->bindParam(':password', $data2['password']);
+    
+        return $stmt->execute();
+    }    
 
     // Fungsi untuk mengupdate data dosen berdasarkan NIDN
     public function updateDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama) {
