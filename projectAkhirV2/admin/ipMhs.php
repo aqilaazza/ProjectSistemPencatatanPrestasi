@@ -14,11 +14,11 @@
       border-radius: 5px;
       cursor: pointer;
       text-decoration: none;
-      transition: background-color 0.3s ease; /* Adding transition effect */
+      transition: background-color 0.3s ease;
     }
 
     .button:hover {
-      background-color: #0056b3; /* Changing background color on hover */
+      background-color: #0056b3;
     }
 
     table {
@@ -35,24 +35,56 @@
       text-align: left;
     }
 
-    /* Style for the Kembali button */
+    .search-form {
+      margin-bottom: 20px;
+      text-align:left;    }
+
+    .search-form input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 80%;
+    }
+
+    .search-form button {
+      padding: 5px 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-form button:hover {
+      background-color: #0056b3;
+    }
+
     .back-button a {
       text-decoration: none;
       color: white;
-      background-color: #007bff; /* Set background color to blue */
+      background-color: #007bff;
       padding: 10px 20px;
       border-radius: 5px;
       transition: background-color 0.3s ease;
     }
 
     .back-button a:hover {
-      background-color: #0056b3; /* Darker blue on hover */
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Input IP Mahasiswa</h2>
+
+    <!-- Form Pencarian -->
+    <form class="search-form" method="GET" action="">
+      <label for="search-nim"></label>
+      <input type="text" id="search-nim" name="search-nim" placeholder="Masukkan NIM" value="<?php echo isset($_GET['search-nim']) ? htmlspecialchars($_GET['search-nim']) : ''; ?>">
+      <button type="submit">Cari</button>
+    </form>
+
     <table>
       <thead>
         <tr>
@@ -63,19 +95,25 @@
       </thead>
       <tbody>
         <?php
-        // Sertakan koneksi ke database
         include('../config/connection.php');
 
-        // Buat koneksi ke database
         $dbConnection = new connection();
         $pdo = $dbConnection->connect();
 
-        // Query untuk mendapatkan data mahasiswa
-        $query = "SELECT nim, nama_lengkap FROM mahasiswa";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute();
+        // Ambil nilai pencarian
+        $searchNim = isset($_GET['search-nim']) ? trim($_GET['search-nim']) : '';
 
-        // Tampilkan data dalam tabel
+        // Query dengan filter pencarian
+        if (!empty($searchNim)) {
+          $query = "SELECT nim, nama_lengkap FROM mahasiswa WHERE nim LIKE :nim";
+          $stmt = $pdo->prepare($query);
+          $stmt->execute([':nim' => "%$searchNim%"]);
+        } else {
+          $query = "SELECT nim, nama_lengkap FROM mahasiswa";
+          $stmt = $pdo->prepare($query);
+          $stmt->execute();
+        }
+
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
           echo "<tr>";
           echo "<td>" . htmlspecialchars($row['nim']) . "</td>";
@@ -89,6 +127,7 @@
         ?>
       </tbody>
     </table>
+
     <div class="back-button">
       <p><a href="../dashboard/dashboardAdmin.php">Kembali</a></p>
     </div>
