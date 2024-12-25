@@ -11,16 +11,31 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Prestasi.mu</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="cssLogin.css"> <!-- Link ke file CSS eksternal -->
+    <link rel="stylesheet" href="cssLogin.css">
+    <style>
+        /* Tambahkan gaya untuk tombol kembali */
+        .back-button {
+            display: block;
+            text-align: center;
+            margin: 10px 0;
+            color: purple;
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
 
-            <?php
-            if (isset($_GET['message']) && $_GET['message'] == 'invalid_credentials') {
-                echo '<script>alert("Coba lagi, cek kembali username dan password Anda.");</script>';
-            }
-            ?>
+        <?php
+        if (isset($_GET['message']) && $_GET['message'] == 'invalid_credentials') {
+            echo '<script>alert("Coba lagi, cek kembali username dan password Anda.");</script>';
+        }
+        ?>
 
         <div class="tabs">
             <div class="tab active" onclick="showTab('mahasiswa')">Mahasiswa</div>
@@ -31,13 +46,14 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
             <!-- Form Login Mahasiswa -->
             <form id="mahasiswa" class="form-container active" action="process_login.php?role=mahasiswa" method="POST">
                 <h2>Login Mahasiswa</h2>
-                <input type="text" name="username" placeholder="nim" required />
+                <input type="text" name="username" placeholder="NIM" required />
                 <input type="password" id="mahasiswa-password" name="password" placeholder="Password" required />
                 <div class="show-password">
                     <input type="checkbox" id="mahasiswa-show-password" onclick="togglePasswordVisibility('mahasiswa-password', this)">
                     <label for="mahasiswa-show-password">Show Password</label>
                 </div>
                 <button type="submit">Login</button>
+                <a href="index.php" class="back-button">Kembali</a>
             </form>
 
             <!-- Form Login Admin -->
@@ -50,6 +66,7 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
                     <label for="admin-show-password">Show Password</label>
                 </div>
                 <button type="submit">Login</button>
+                <a href="index.php" class="back-button">Kembali</a>
             </form>
 
             <!-- Form Login Dosen -->
@@ -62,6 +79,7 @@ if (isset($_GET['message']) && $_GET['message'] == 'logout') {
                     <label for="dosen-show-password">Show Password</label>
                 </div>
                 <button type="submit">Login</button>
+                <a href="index.php" class="back-button">Kembali</a>
             </form>
         </div>
     </div>
