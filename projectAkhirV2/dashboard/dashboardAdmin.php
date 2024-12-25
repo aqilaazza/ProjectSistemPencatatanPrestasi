@@ -19,7 +19,7 @@
             <li><a href="../admin/ipMhs.php">Unggah IP Mahasiswa</a></li>
             <li><a href="../admin/validasi_prestasi.php">Validasi Prestasi Non-Akademik</a></li>
             <li><a href="../admin/aturselayang.php">Selayang Pandang</a></li>
-            <li><a href="#">FAQ</a></li>
+            <li><a href="../admin/aturfaq.php">FAQ</a></li>
             <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
         </ul>
     </div>
