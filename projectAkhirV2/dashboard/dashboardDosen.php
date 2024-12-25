@@ -61,6 +61,7 @@ $statistik = $stmtStatistik->fetchAll(PDO::FETCH_ASSOC);
             <li><a href="../dosen/biodata_dosen.php">Profil Saya</a></li>
             <li><a href="../dosen/prestasi_akademik_dosen.php">Prestasi Akademik</a></li>
             <li><a href="../dosen/nonakademik.php">Prestasi Non-Akademik</a></li>
+            <li><a href="../dosen/lihat_peran.php">Peran Dosen Pembimbing</a></li>
             <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
         </ul>
     </div>
