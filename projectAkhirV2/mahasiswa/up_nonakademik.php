@@ -229,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="nama-kompetisi">Nama Kompetisi</label>
             <input type="text" name="nama-kompetisi" placeholder="Nama Kompetisi" required />
             <label for="id-dosen-pembimbing">ID Dosen Pembimbing</label>
-            <input type="text" name="id-dosen-pembimbing" placeholder="ID Dosen Pembimbing" required />
+            <input type="text" name="id-dosen-pembimbing" placeholder="ID Dosen Pembimbing"/>
             <label for="nim-mahasiswa">NIM Mahasiswa</label>
             <input type="text" name="nim-mahasiswa" placeholder="NIM Mahasiswa" required />
             <label for="peran">Peran dalam Kompetisi:</label>
