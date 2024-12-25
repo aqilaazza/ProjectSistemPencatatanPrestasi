@@ -42,7 +42,32 @@ class dosen extends user {
         $stmt->bindParam(':password', $data2['password']);
     
         return $stmt->execute();
-    }    
+    }
+    
+    //Fungsi untuk menambahkan data peran dosen pada tabel dosen_pembimbing
+    public function addPeran($data1) {
+        // Query untuk menambahkan data di tabel dosen_pembimbing
+        $query = "INSERT INTO dosen_pembimbing (nidn, peran) VALUES (:nidn, :peran)";
+        $stmt = $this->conn->prepare($query);
+
+        // Bind parameter untuk dosen_pembimbing
+        $stmt->bindParam(':nidn', $data1['nidn']);
+        $stmt->bindParam(':peran', $data1['peran']);
+
+        // Eksekusi query
+        if (!$stmt->execute()) {
+            throw new Exception("Gagal menambahkan peran dosen pembimbing");
+        }
+    }
+
+    //Fungsi untuk menampilkan data dosen pembimbing dari tabel dosen_pembimbing
+    public function getPeran($nidn) {
+        $query = "SELECT * FROM dosen_pembimbing WHERE nidn = :nidn";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':nidn', $nidn, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     // Fungsi untuk mengupdate data dosen berdasarkan NIDN
     public function updateDosen($nidn, $nama, $email, $no_telp, $jabatan, $alamat, $kota_kelahiran, $tgl_lahir, $agama) {
