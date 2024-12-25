@@ -14,10 +14,17 @@ try {
     // Ambil hasil query
     $statistik = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    
+    // Jalankan query untuk FAQ
+    $faqQuery = "SELECT pertanyaan, jawaban FROM faq";
+    $faqStmt = $conn->prepare($faqQuery);
+    $faqStmt->execute();
+
+    // Ambil hasil query FAQ
+    $faqs = $faqStmt->fetchAll(PDO::FETCH_ASSOC);
+
 } catch (PDOException $e) {
     // Tampilkan pesan kesalahan jika terjadi masalah dengan query
-    echo "console.error('Error fetching statistics: " . $e->getMessage() . "');";
+    echo "console.error('Error fetching data: " . $e->getMessage() . "');";
 }
 ?>
 
@@ -51,28 +58,29 @@ try {
 <div class="container">
     <section class="desc-section">
         <h2>JTI Polinema</h2>
-        <p style="text-align: justify;">Prestasi adalah hasil dari usaha dan kerja keras untuk mencapai sesuatu yang membanggakan. Bagi mahasiswa, prestasi bukan cuma soal nilai atau IPK, tapi juga keterlibatan dalam kegiatan seperti lomba, organisasi, atau pengabdian masyarakat. Prestasi menunjukkan kemampuan untuk berkembang, berpikir kreatif, dan menghadapi tantangan. Selain itu, lewat proses meraih prestasi, mahasiswa belajar banyak hal, seperti manajemen waktu, tanggung jawab, dan membangun karakter.  
-
-Prestasi juga bisa membawa dampak positif, bukan cuma buat diri sendiri, tapi juga untuk kampus dan lingkungan sekitar. Jadi, jangan takut untuk mencoba dan terus melangkah maju. Ayo, raih prestasi setinggi-tingginya dan tunjukkan bahwa kamu mampu membawa perubahan!</p>
+        <p style="text-align: justify;">
+            <?php
+            // Ambil deskripsi dari tabel selayang_pandang
+            $selayangQuery = "SELECT deskripsi FROM selayang_pandang";
+            $selayangStmt = $conn->prepare($selayangQuery);
+            $selayangStmt->execute();
+            $selayang = $selayangStmt->fetch(PDO::FETCH_ASSOC);
+            echo $selayang ? $selayang['deskripsi'] : "Deskripsi tidak tersedia.";
+            ?>
+        </p>
     </section>
-    
+
     <!-- FAQ Section -->
     <section class="faq-section">
         <h2>FAQ</h2>
-        <div class="faq-item">
-            <h3>1. Apakah semua mahasiswa bisa memiliki akun tanpa punya prestasi non-akademik?</h3>
-            <p>Jawaban: Bisa. Akun dapat dimiliki oleh semua mahasiswa, baik yang memiliki prestasi non-akademik maupun tidak. Yang penting adalah mahasiswa tersebut tetap aktif dan memiliki keinginan untuk terus belajar serta mengembangkan diri.</p>
-        </div>
-        <div class="faq-item">
-            <h3>2. Apakah ada batasan jenis kegiatan yang dianggap sebagai prestasi?</h3>
-            <p>Jawaban: Tidak ada batasan. Prestasi bisa berupa apapun yang berdampak positif, seperti memenangkan lomba, menjadi pengurus organisasi, melaksanakan kegiatan sosial, atau bahkan berhasil menyelesaikan proyek pribadi yang bermanfaat.</p>
-        </div>
-        <div class="faq-item">
-            <h3>3. Apakah prestasi yang dapat dicatatumkan hanya diukur dari penghargaan atau sertifikat?</h3>
-            <p>Jawaban: Tidak. Prestasi juga bisa berupa pengalaman berharga yang memberikan dampak nyata, seperti menjalankan proyek sosial, membantu orang lain, atau menghasilkan karya yang bermanfaat.</p>
-        </div>
+        <?php foreach ($faqs as $faq): ?>
+            <div class="faq-item">
+                <h3><?php echo htmlspecialchars($faq['pertanyaan']); ?></h3>
+                <p><?php echo htmlspecialchars($faq['jawaban']); ?></p>
+            </div>
+        <?php endforeach; ?>
     </section>
-    
+
     <!-- Statistics Section -->
     <section class="statistics-section">
     <h2>Statistik Prestasi Non-Akademik</h2>
