@@ -54,6 +54,7 @@ $validasi_results = $stmtValidasi->fetchAll(PDO::FETCH_ASSOC);
         <li><a href="../mahasiswa/profil_mahasiswa.php">Profil Saya</a></li>
         <li><a href="../mahasiswa/prestasi_akademik.php">Prestasi Akademik</a></li>
         <li><a href="../mahasiswa/up_nonakademik.php">Prestasi Non-Akademik</a></li>
+        <li><a href="../mahasiswa/ubah_password.php">Ubah Password</a></li>
         <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
     </ul>
 </div>
