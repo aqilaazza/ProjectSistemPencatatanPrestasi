@@ -20,6 +20,7 @@
             <li><a href="../admin/validasi_prestasi.php">Validasi Prestasi Non-Akademik</a></li>
             <li><a href="../admin/aturselayang.php">Selayang Pandang</a></li>
             <li><a href="../admin/aturfaq.php">FAQ</a></li>
+            <li><a href="../admin/ubah_password.php">Ubah Password</a></li>
             <li><a href="#" onclick="confirmLogout()">Keluar</a></li>
         </ul>
     </div>
