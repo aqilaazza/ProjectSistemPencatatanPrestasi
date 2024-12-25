@@ -1,6 +1,6 @@
 <?php
 class connection {
-    private $host = "LAPTOP-83QPKDTF\\SQLEXPRESS"; // Nama server\nama_instance
+    private $host = "LAPTOP-ODRK022O"; // Nama server\nama_instance
     private $database = "sistemprestasi";          // Nama database
     private $uid = "";                             // Username database (kosongkan jika tidak ada)
     private $pwd = "";                             // Password database
