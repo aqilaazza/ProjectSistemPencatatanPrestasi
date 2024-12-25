@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Eksekusi update
     if ($updateStmt->execute()) {
         echo "Jadwal piket berhasil diubah.";
-        header('Location: dashboardDosen.php'); // Redirect setelah berhasil
+        header('Location: ../dashboard/dashboardAdmin.php'); // Redirect setelah berhasil
         exit;
     } else {
         echo "Gagal mengubah jadwal piket.";
