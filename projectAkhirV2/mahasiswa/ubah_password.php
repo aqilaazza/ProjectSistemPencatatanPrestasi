@@ -5,7 +5,7 @@ session_start();
 // Periksa apakah mahasiswa sudah login (misalnya dengan memeriksa session nim)
 if (!isset($_SESSION['nim'])) {
     // Jika belum login, redirect ke halaman login atau dashboard
-    header("Location: ../login/login_mahasiswa.php");
+    header("Location: login.php");
     exit;
 }
 
