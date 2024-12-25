@@ -31,58 +31,51 @@
 
         <div class="card">
             <h2>Jadwal Piket Admin Validator Prestasi.mu</h2>
-            <table class="jadwal-piket-table" id="jadwal-piket-table">
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Hari</th>
-                        <th>Jam</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be inserted here by JavaScript -->
-                </tbody>
-            </table>
+            <?php
+            // Memasukkan file connection.php dari folder config
+            require_once '../config/connection.php';
+
+            // Membuat objek dari kelas connection
+            $connObj = new connection();
+
+            // Mendapatkan koneksi database
+            $conn = $connObj->connect();
+
+            try {
+                $stmt = $conn->prepare("SELECT jp.nip, a.nama, jp.hari, jp.jam FROM jadwal_piket jp INNER JOIN admin a ON jp.nip = a.nip");
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if (count($result) > 0) {
+                    echo '<table class="jadwal-piket-table" id="jadwal-piket-table">';
+                    echo '<thead><tr><th>NIP</th><th>Nama</th><th>Hari</th><th>Jam</th><th>Pengaturan</th></tr></thead><tbody>';
+
+                    foreach ($result as $row) {
+                        echo '<tr>';
+                        echo '<td>' . htmlspecialchars($row['nip']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['nama']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['hari']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['jam']) . '</td>';
+                        echo '<td><a href="../admin/ubah_piket.php?nip=' . urlencode($row['nip']) . '" class="button-ubah">Ubah</a></td>';
+                        echo '</tr>';
+                    }
+
+                    echo '</tbody></table>';
+                } else {
+                    echo '<p>Jadwal Piket Belum Diatur</p>';
+                }
+
+                // Menutup koneksi
+                $connObj->disconnect();
+            } catch (PDOException $e) {
+                echo '<p>Terjadi kesalahan: ' . $e->getMessage() . '</p>';
+            }
+            ?>
+            <a href="../admin/tambah_piket.php" class="button-tambah">Tambah Data</a>
         </div>
     </div>
 
     <script>
-        // Array of jadwal piket admin
-        const jadwalPiket = [
-            { nama: "Dian Kurniawan", hari: "Senin", jam: "08:00 - 12:00" },
-            { nama: "Rizki Aditya", hari: "Selasa", jam: "12:00 - 16:00" },
-            { nama: "Nadia Wulandari", hari: "Rabu", jam: "08:00 - 12:00" }
-        ];
-
-        // Function to render the schedule table
-        function renderJadwalPiket() {
-            const tableBody = document.querySelector("#jadwal-piket-table tbody");
-            jadwalPiket.forEach(item => {
-                const row = document.createElement("tr");
-                
-                // Create and append Nama cell
-                const tdNama = document.createElement("td");
-                tdNama.textContent = item.nama;
-                row.appendChild(tdNama);
-                
-                // Create and append Hari cell
-                const tdHari = document.createElement("td");
-                tdHari.textContent = item.hari;
-                row.appendChild(tdHari);
-                
-                // Create and append Jam cell
-                const tdJam = document.createElement("td");
-                tdJam.textContent = item.jam;
-                row.appendChild(tdJam);
-                
-                // Append the row to the table body
-                tableBody.appendChild(row);
-            });
-        }
-
-        // Call render function when page loads
-        renderJadwalPiket();
-
         // Logout confirmation function
         function confirmLogout() {
             const confirmed = window.confirm("Apakah Anda yakin keluar?");
@@ -93,5 +86,6 @@
             }
         }
     </script>
+
 </body>
 </html>
