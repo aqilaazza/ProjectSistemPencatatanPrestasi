@@ -1,3 +1,32 @@
+<?php
+require_once '../config/connection.php'; // Mengimpor koneksi database
+
+// Membuat instance dari class connection
+$connInstance = new connection();
+$conn = $connInstance->connect();
+
+// Memulai sesi untuk mendapatkan NIDN yang sedang login
+session_start();
+if (!isset($_SESSION['nidn'])) {
+    header("Location: ../login.php");
+    exit;
+}
+$nidn = $_SESSION['nidn'];
+
+// Query untuk mendapatkan data berdasarkan kondisi
+$sql = "SELECT pn.id_dospem, m.nim, m.nama_lengkap, pn.nama_kompetisi, pn.jenis_kompetisi, 
+               pn.tingkat_kompetisi, pn.peringkat, pn.tgl_penyelenggaraan
+        FROM prestasi_nonakademik pn
+        INNER JOIN mahasiswa m ON pn.nim = m.nim
+        INNER JOIN dosen_pembimbing dp ON pn.id_dospem = dp.id_dospem
+        WHERE pn.status_validasi = 'diterima' AND dp.nidn = :nidn";
+
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':nidn', $nidn, PDO::PARAM_STR);
+$stmt->execute();
+$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -64,99 +93,6 @@
             background-color: #f1f1f1;
         }
 
-        .action-buttons {
-            display: flex;
-            justify-content: space-evenly;
-            gap: 10px;
-        }
-
-        .action-buttons form {
-            display: inline-block;
-        }
-
-        .action-buttons button {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            outline: none;
-        }
-
-        .action-buttons .edit-button {
-            background-color: #4CAF50; /* Green */
-            color: white;
-        }
-
-        .action-buttons .edit-button i {
-            color: #ffffff;
-        }
-
-        .action-buttons .edit-button:hover {
-            background-color: #45a049;
-            transform: scale(1.05);
-        }
-
-        .action-buttons .delete-button {
-            background-color: #f44336; /* Red */
-            color: white;
-        }
-
-        .action-buttons .delete-button i {
-            color: #ffffff;
-        }
-
-        .action-buttons .delete-button:hover {
-            background-color: #e53935;
-            transform: scale(1.05);
-        }
-
-        .button-container {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .button-container a {
-            text-decoration: none;
-            margin: 5px;
-        }
-
-        .button-container button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            background-color: #2A6BF8;
-            color: white;
-        }
-
-        .button-container button:hover {
-            background-color: #1a4db4;
-        }
-
-        .message-container {
-            margin-bottom: 20px;
-        }
-
-        .success-message {
-            background-color: #4CAF50; /* Green */
-            color: white;
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
-        }
-
-        .error-message {
-            background-color: #f44336;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
-        }
         .navbar {
             text-align: center;
             margin-top: 20px;
@@ -165,22 +101,21 @@
 
         .navbar a {
             text-decoration: none;
-            padding: 10px 5px; /* Atur padding agar tombol lebih besar */
-            width: 150px; /* Atur lebar tombol secara konsisten */
-            display: inline-block; /* Agar width berfungsi */
-            text-align: center; /* Teks berada di tengah */
+            padding: 10px 5px;
+            width: 150px;
+            display: inline-block;
+            text-align: center;
             background-color: #2A6BF8;
             color: white;
-            border-radius: 8px; /* Tambahkan sedikit pembulatan */
-            font-size: 16px; /* Ukuran teks */
-            font-weight: 500; /* Ketebalan teks */
-            transition: all 0.3s ease; /* Animasi untuk hover */
-            }
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
 
         .navbar a:hover {
-            background-color: #0056d2; /* Warna saat hover */
-            color: #fff; /* Pastikan teks tetap terlihat */
-            transform: scale(1.05); /* Sedikit memperbesar tombol saat hover */
+            background-color: #0056d2;
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -191,17 +126,34 @@
             <thead>
                 <tr>
                     <th>ID Dospem</th>
-                    <th>Nim</th>
-                    <th>Nama</th>
+                    <th>NIM</th>
+                    <th>Nama Lengkap</th>
                     <th>Nama Kompetisi</th>
                     <th>Jenis Kompetisi</th>
                     <th>Tingkat Kompetisi</th>
                     <th>Peringkat</th>
-                    <th>Tgl Penyelenggaraan</th>
+                    <th>Tanggal Penyelenggaraan</th>
                 </tr>
             </thead>
             <tbody>
-                
+                <?php if (count($data) > 0): ?>
+                    <?php foreach ($data as $row): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row['id_dospem']); ?></td>
+                            <td><?= htmlspecialchars($row['nim']); ?></td>
+                            <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
+                            <td><?= htmlspecialchars($row['nama_kompetisi']); ?></td>
+                            <td><?= htmlspecialchars($row['jenis_kompetisi']); ?></td>
+                            <td><?= htmlspecialchars($row['tingkat_kompetisi']); ?></td>
+                            <td><?= htmlspecialchars($row['peringkat']); ?></td>
+                            <td><?= htmlspecialchars($row['tgl_penyelenggaraan']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="8" style="text-align: center;">Tidak ada data yang tersedia</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
         <div class="navbar">
