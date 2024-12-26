@@ -96,5 +96,14 @@ public function update($nim, $data) {
         throw $e;
     }
 }
+
+        public function getByNim($nim) {
+            $query = "SELECT * FROM mahasiswa WHERE nim = :nim";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':nim', $nim, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
 }
 ?>
