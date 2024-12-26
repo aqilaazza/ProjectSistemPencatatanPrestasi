@@ -80,7 +80,7 @@ if ($dbPassword === $password || password_verify($password, $dbPassword)) {
             break;
     }
 
-    // Redirect sesuai role
+    // Pengaturan sesuai role
     switch ($role) {
         case 'mahasiswa':
             header("Location: ./dashboard/dashboardMahasiswa.php");
