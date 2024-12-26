@@ -63,8 +63,9 @@ $nim = isset($_GET['nim']) ? $_GET['nim'] : '';
 $query = "SELECT * FROM validasi_prestasi_view";
 
 if (!empty($nim)) {
-    $query .= " WHERE pn.nim LIKE :nim";
+    $query .= " WHERE nim LIKE :nim";
 }
+
 $stmt = $conn->prepare($query);
 if (!empty($nim)) {
     $stmt->bindValue(':nim', '%' . $nim . '%', PDO::PARAM_STR);
@@ -72,33 +73,35 @@ if (!empty($nim)) {
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if (!empty($results)):
-    foreach ($results as $row):
+if (!empty($results)) {
+    foreach ($results as $row) {
         $statusValidasi = $row['status_validasi'];
 ?>
-    <tr id="row-<?= htmlspecialchars($row['nama_kompetisi']) ?>">
-        <td><?= htmlspecialchars($row['nim']) ?></td>
-        <td><?= htmlspecialchars($row['nama_kompetisi']) ?></td>
-        <td>
-            <a href="up_nonakademik.php?nama_kompetisi=<?= urlencode($row['nama_kompetisi']) ?>" class="button">Detail</a>
-        </td>
-        <td>
-            <div class="status-buttons">
-                <button class="status-button <?= $statusValidasi === 'diterima' ? 'selected' : '' ?>" 
-                        onclick="handleStatus(this, 'ya', '<?= htmlspecialchars($row['nama_kompetisi']) ?>')">Ya</button>
-                <button class="status-button <?= $statusValidasi === 'ditolak' ? 'selected' : '' ?>" 
-                        onclick="handleStatus(this, 'tidak', '<?= htmlspecialchars($row['nama_kompetisi']) ?>')">Tidak</button>
-            </div>
-        </td>
-    </tr>
+        <tr id="row-<?= htmlspecialchars($row['nama_kompetisi']) ?>">
+            <td><?= htmlspecialchars($row['nim']) ?></td>
+            <td><?= htmlspecialchars($row['nama_kompetisi']) ?></td>
+            <td>
+                <a href="up_nonakademik.php?nama_kompetisi=<?= urlencode($row['nama_kompetisi']) ?>" class="button">Detail</a>
+            </td>
+            <td>
+                <div class="status-buttons">
+                    <button class="status-button <?= $statusValidasi === 'diterima' ? 'selected' : '' ?>" 
+                            onclick="handleStatus(this, 'ya', '<?= htmlspecialchars($row['nama_kompetisi']) ?>')">Ya</button>
+                    <button class="status-button <?= $statusValidasi === 'ditolak' ? 'selected' : '' ?>" 
+                            onclick="handleStatus(this, 'tidak', '<?= htmlspecialchars($row['nama_kompetisi']) ?>')">Tidak</button>
+                </div>
+            </td>
+        </tr>
 <?php
-    endforeach;
-else:
+    }
+} else {
 ?>
-<tr>
-    <td colspan="4" style="text-align: center;">Data tidak ditemukan.</td>
-</tr>
-<?php endif; ?>
+        <tr>
+            <td colspan="4" style="text-align: center;">Data tidak ditemukan.</td>
+        </tr>
+<?php
+}
+?>
       </tbody>
     </table>
     <div class="login-link">
