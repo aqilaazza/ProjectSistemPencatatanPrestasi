@@ -41,8 +41,15 @@ $stmt->execute();
 
 $result = $stmt->fetch(PDO::FETCH_ASSOC);  // Menggunakan fetch untuk mengambil satu baris data
 
-// Debugging: Cek hasil query
+// Jika username tidak ditemukan
 if (!$result) {
+    // Masukkan log kegagalan login ke tabel login_logs
+    $insertLogQuery = "INSERT INTO login_logs (username, role, alasan) VALUES (:username, :role, 'Username atau Password Salah!!');";
+    $logStmt = $conn->prepare($insertLogQuery);
+    $logStmt->bindParam(":username", $username);
+    $logStmt->bindParam(":role", $role);
+    $logStmt->execute();
+
     header("Location: login.php?message=invalid_credentials");
     return;
 }
@@ -89,6 +96,13 @@ if ($dbPassword === $password || password_verify($password, $dbPassword)) {
             return;
     }
 } else {
+    // Masukkan log kegagalan login ke tabel login_logs
+    $insertLogQuery = "INSERT INTO login_logs (username, role, alasan) VALUES (:username, :role, 'Username atau Password Salah!!');";
+    $logStmt = $conn->prepare($insertLogQuery);
+    $logStmt->bindParam(":username", $username);
+    $logStmt->bindParam(":role", $role);
+    $logStmt->execute();
+
     header("Location: login.php?message=invalid_credentials");  // Redirect ke halaman login dengan pesan kesalahan
     return;
 }
