@@ -18,6 +18,20 @@ try {
     echo "Error: " . $e->getMessage();
     die();
 }
+
+// Mendapatkan data dosen berdasarkan pencarian NIDN
+try {
+    if (isset($_GET['nidn_search']) && !empty($_GET['nidn_search'])) {
+        $nidn_search = htmlspecialchars($_GET['nidn_search']);
+        $result = $dosenObj->getByNIDN($nidn_search); // Fungsi untuk mencari data dosen berdasarkan NIDN
+    } else {
+        $result = $dosenObj->getAll(); // Fungsi untuk mengambil semua data dosen
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+    die();
+}
+
 ?>
 
 
@@ -164,12 +178,48 @@ try {
             border-radius: 5px;
         }
 
+                .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-container input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            background-color: #2A6BF8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-container button:hover {
+            background-color: #0056d2;
+        }
+
+
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Data Dosen</h1>
+
+    <div class="search-container">
+        <form method="get" action="">
+            <input type="text" name="nidn_search" placeholder="Cari berdasarkan NIDN" value="<?= isset($_GET['nidn_search']) ? htmlspecialchars($_GET['nidn_search']) : '' ?>">
+            <button type="submit">Cari</button>
+        </form>
+    </div>
 
     <?php if (isset($_GET['message'])) : ?>
             <div class="success-message">

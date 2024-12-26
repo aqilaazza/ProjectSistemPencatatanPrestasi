@@ -103,5 +103,21 @@ class dosen extends user {
         // Eksekusi query
         return $stmt->execute();
     }
+
+    // Fungsi untuk mendapatkan data dosen berdasarkan NIDN
+        public function getByNIDN($nidn) {
+            $query = "SELECT * FROM " . $this->table . " WHERE nidn = :nidn";
+            $stmt = $this->conn->prepare($query);
+
+            // Bind parameter
+            $stmt->bindParam(':nidn', $nidn, PDO::PARAM_STR);
+
+            // Eksekusi query
+            $stmt->execute();
+
+            // Ambil hasil data
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
 }
 ?>
