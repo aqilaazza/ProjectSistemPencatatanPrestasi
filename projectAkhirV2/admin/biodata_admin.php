@@ -17,6 +17,26 @@ try {
     die("Query gagal: " . $e->getMessage());
 }
 
+try {
+    // Cek apakah ada pencarian
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+
+    if (!empty($search)) {
+        // Query untuk mencari data berdasarkan NIP
+        $sql = "SELECT * FROM admin WHERE nip LIKE :search";
+        $query = $pdo->prepare($sql);
+        $query->bindValue(':search', "%$search%");
+    } else {
+        // Query untuk mengambil semua biodata admin
+        $sql = "SELECT * FROM admin";
+        $query = $pdo->prepare($sql);
+    }
+
+    $query->execute();
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Query gagal: " . $e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
@@ -203,11 +223,58 @@ try {
             color: #fff; /* Pastikan teks tetap terlihat */
             transform: scale(1.05); /* Sedikit memperbesar tombol saat hover */
         }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container form {
+            display: inline-block;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-container input[type="text"] {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .search-container button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            padding: 0 20px;
+            background-color: #2A6BF8;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-container button:hover {
+            background-color: #1a4db4;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Biodata Admin</h1>
+
+        <div class="search-container">
+            <form action="" method="get">
+                <input type="text" name="search" placeholder="Cari berdasarkan NIP" value="<?php echo htmlspecialchars($search); ?>">
+                <button type="submit">Cari</button>
+            </form>
+        </div>
 
         <?php if (isset($_GET['message'])) : ?>
             <div class="success-message">
