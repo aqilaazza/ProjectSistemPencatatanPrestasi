@@ -49,6 +49,19 @@ if (isset($_GET['nama_kompetisi']) && !empty($_GET['nama_kompetisi'])) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../admin/up_nonakademik.css">
 </head>
+<style>
+    body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('../img/bg.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+</style>
 <body>
     <div class="container">
         <h2>Data Prestasi Non-Akademik</h2>
